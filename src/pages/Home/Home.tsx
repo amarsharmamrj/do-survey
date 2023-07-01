@@ -1,5 +1,5 @@
 import { Grid, Typography, Button, Box, Stack } from "@mui/material"
-import SurveyCard from "../components/Home/SurveyCard"
+import SurveyCard from "../../components/Home/SurveyCard"
 import {Link} from 'react-router-dom'
 import "./Home.css"
 

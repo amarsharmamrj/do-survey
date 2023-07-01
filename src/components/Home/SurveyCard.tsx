@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, Stack, Typography } from "@mui/material"
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import '../../pages/Home.css'
+import '../../pages/Home/Home.css'
 
 const SurveyCard = (props: any) => {
     const { survey } = props

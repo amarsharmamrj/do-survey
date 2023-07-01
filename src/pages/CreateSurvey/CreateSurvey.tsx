@@ -1,14 +1,16 @@
 import { Grid, Typography, Button, Box, Stack, TextField, FormControl, Select, MenuItem } from "@mui/material"
 import { useState } from "react"
 import { Link } from 'react-router-dom'
-import Question from "../components/CreateSurvey.tsx/Question"
+import Question from "../../components/CreateSurvey.tsx/Question"
 import "./CreateSurvey.css"
 
 const CreateSurvey = () => {
     const [questions, setQuestions] = useState([{
         id: 1,
-        questionType: 'textbox'
+        questionType: 'textbox',
+        required: false
     }])
+
     return (
 
         <Grid container className="homepage-container">
