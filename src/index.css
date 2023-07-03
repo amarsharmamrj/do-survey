@@ -43,6 +43,15 @@ code {
   margin-right: 1rem !important;
 }
 
+.mtb-1 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.mtb-2 {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
 
 
 

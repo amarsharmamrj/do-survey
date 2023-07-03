@@ -1,19 +1,15 @@
-import { Grid, Typography, Button, Box, Switch, Stack, TextField, FormControl, Select, MenuItem, Radio, IconButton, FormControlLabel, Divider } from "@mui/material"
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import Paper from '@mui/material/Paper';
-import Collapse from '@mui/material/Collapse';
+import { Grid, Box, Switch, IconButton, Divider, Tooltip, Zoom } from "@mui/material"
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useEffect, useState } from "react";
-import { isTemplateExpression } from "typescript";
+import { useState } from "react";
+import Textbox from "./Textbox";
+import Multiple from "./Multiple";
+import Actions from "./Actions";
+import Checkboxes from "./Checkboxes";
+
 const Question = (props: any) => {
     const { question, questions, setQuestions } = props
     const [checked, setChecked] = useState(true);
-
-    // const [optionsForMultiple, setOptionsForMultiple] = useState([{ id: 1000, label: 'option' }]) 
 
     const handleQuestionType = (e: any) => {
         console.log("questions:", questions)
@@ -22,6 +18,9 @@ const Question = (props: any) => {
             if (item.id === question.id) {
                 item.questionType = e.target.value
                 if (e.target.value === 'multiple') {
+                    item.options = [{ id: 1000, label: 'Option' }]
+                }
+                if (e.target.value === 'checkbox') {
                     item.options = [{ id: 1000, label: 'Option' }]
                 }
             }
@@ -103,134 +102,63 @@ const Question = (props: any) => {
 
     return (
         <Grid item xs={12} sm={12} md={10}>
-            <Box className="question-box">
-                {
-                    question.questionType === 'multiple' && (
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', direction: 'row-reverse', alignItems: 'center' }}>
-                            {checked ? 'Collapse' : 'Expand'}
-                            <IconButton onClick={handleChange} sx={{ marginLeft: '0.5rem' }}>
-                                {checked ? <ExpandLessIcon className="color-one" /> : <ExpandMoreIcon className="color-one" />}
-                            </IconButton>
-                        </Box>
-                    )
-                }
-                {
-                    question.questionType === 'textbox' ? (
-                        <Box className="question-section">
-                            <TextField
-                                id={question.id}
-                                variant="outlined"
-                                fullWidth={true}
-                                autoFocus
-                                placeholder='Enter question'
-                            />
-                            <FormControl className="question-type-select">
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={question.questionType}
-                                    onChange={handleQuestionType}
-                                >
-                                    <MenuItem value='textbox'>Textbox</MenuItem>
-                                    <MenuItem value='multiple'>Multiple Choice</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box>
-                    ) : (
-                        question.questionType === 'multiple' ? (
-                            <>
-                                <Collapse in={checked} collapsedSize={60}>
-                                    <Box className="question-section">
-                                        <TextField
-                                            id={question.id}
-                                            variant="outlined"
-                                            fullWidth={true}
-                                            placeholder='Enter question'
-
-                                        />
-                                        <FormControl className="question-type-select">
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={question.questionType}
-                                                onChange={handleQuestionType}
-                                            >
-                                                <MenuItem value='textbox'>Textbox</MenuItem>
-                                                <MenuItem value='multiple'>Multiple Choice</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                    <Box className="options-section">
-                                        {
-                                            question.questionType === 'multiple' && question.options ? (
-                                                question.options.map((option: any) => {
-                                                    return (
-                                                        <Box key={option.id - question.id} className="option-row">
-                                                            <Box className="option-row-input">
-                                                                <Radio disabled={true} />
-
-                                                                <TextField
-                                                                    id={question.id + option.id}
-                                                                    variant="standard"
-                                                                    className="option-label"
-                                                                    placeholder='Option'
-                                                                    autoFocus
-                                                                    onKeyUp={(e) => handleOptionChange(e, option.id, question.id)}
-                                                                />
-                                                            </Box>
-
-                                                            <Box className="option-row-buttons">
-                                                                {question.options.length > 1 && (
-                                                                    <IconButton onClick={() => handleDeleteOption(question.id, option.id)}>
-                                                                        <DeleteOutlineIcon className="color-two" />
-                                                                    </IconButton>
-                                                                )
-                                                                }
-                                                                <IconButton onClick={() => handleAddOption(question.id)}>
-                                                                    <AddIcon className="color-one" />
-                                                                </IconButton>
-                                                            </Box>
-
-
-                                                        </Box>
-                                                    )
-                                                })
-                                            ) : ('')
-                                        }
-                                    </Box>
-                                </Collapse>
-                            </>
-                        ) : (
-                            <p>other</p>)
-                    )
-                }
-
-                <Divider sx={{marginTop: '1rem'}} />
-
-                <Box className="question-actions">
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <span>Required</span> <Switch onChange={handleRequired} />
-                    </Box>
-                    <Divider orientation="vertical" flexItem  sx={{marginRight:'1rem'}} />
+            <Zoom in={true}>
+                <Box className="question-box">
                     {
-                        question.id !== 1 && (
-                            <IconButton
-                                size="small"
-                                className="mr-2"
-                                onClick={handleDeleteQuestion}
-                            >
-                                <DeleteIcon className="color-two" />
-                            </IconButton>
+                        question.questionType === 'multiple' && (
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', direction: 'row-reverse', alignItems: 'center' }}>
+                                {checked ? 'Collapse' : 'Expand'}
+                                <IconButton onClick={handleChange} sx={{ marginLeft: '0.5rem' }}>
+                                    {checked ? <ExpandLessIcon className="color-one" /> : <ExpandMoreIcon className="color-one" />}
+                                </IconButton>
+                            </Box>
                         )
                     }
-                    <IconButton
-                        size="small"
-                        onClick={handleAddQuestion}
-                    >
-                        <AddCircleIcon className="color-one" />
-                    </IconButton>
+                    {
+                        question.questionType === 'textbox' ? (
+                            <Textbox
+                                question={question}
+                                handleQuestionType={handleQuestionType}
+                            />
+
+                        ) : (
+                            question.questionType === 'multiple' ? (
+                                <Multiple
+                                    question={question}
+                                    handleQuestionType={handleQuestionType}
+                                    handleOptionChange={handleOptionChange}
+                                    handleDeleteOption={handleDeleteOption}
+                                    handleAddOption={handleAddOption}
+                                    checked={checked}
+                                    setChecked={setChecked}
+                                />
+                            ) : (
+                                question.questionType === 'checkbox' ? (
+                                    <Checkboxes
+                                    question={question}
+                                    handleQuestionType={handleQuestionType}
+                                    handleOptionChange={handleOptionChange}
+                                    handleDeleteOption={handleDeleteOption}
+                                    handleAddOption={handleAddOption}
+                                    checked={checked}
+                                    setChecked={setChecked}
+                                />
+                                ) : <p>other</p>
+                            )
+                        )
+                    }
+
+                    <Divider sx={{ marginTop: '1rem' }} />
+
+                    <Actions
+                        question={question}
+                        handleRequired={handleRequired}
+                        handleDeleteQuestion={handleDeleteQuestion}
+                        handleAddQuestion={handleAddQuestion}
+                    />
+
                 </Box>
-            </Box>
+            </Zoom>
 
         </Grid >
     )

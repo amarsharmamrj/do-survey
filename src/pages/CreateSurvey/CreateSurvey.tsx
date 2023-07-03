@@ -24,16 +24,38 @@ const CreateSurvey = () => {
                     </Box> */}
                 </Stack>
             </Grid>
+            <Grid item md={12} container className="question-container">
+                <Grid item xs={12} sm={12} md={10}>
+                    <Box className="survey-details">
+                        <TextField
+                            variant="outlined"
+                            className="mtb-1"
+                            label="Survey Name"
+                            fullWidth={true}
+                            autoFocus
+                            placeholder='Enter survey name'
+                        />
+                        <TextField
+                            variant="outlined"
+                            className="mtb-1"
+                            label="Survey description"
+                            fullWidth={true}
+                            autoFocus
+                            placeholder='Enter survey description'
+                        />
+                    </Box>
+                </Grid>
+            </Grid>
             <Grid container item md={12} className="question-container">
-               {
-                questions.length > 0 ? (
-                    questions.map((question:any) => {
-                        return (
-                            <Question key={question.id} question={question} questions={questions} setQuestions={setQuestions} />
-                        )
-                    })
-                ) : ('')
-               }
+                {
+                    questions.length > 0 ? (
+                        questions.map((question: any) => {
+                            return (
+                                <Question key={question.id} question={question} questions={questions} setQuestions={setQuestions} />
+                            )
+                        })
+                    ) : ('')
+                }
             </Grid>
         </Grid>
     )
