@@ -51,6 +51,17 @@
     justify-content: center;
 }
 
+.format-tools ul{
+    display: flex;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
 
 
 @media screen and (max-width: 576px) {

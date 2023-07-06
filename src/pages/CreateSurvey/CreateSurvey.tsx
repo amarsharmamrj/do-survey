@@ -1,8 +1,11 @@
-import { Grid, Typography, Button, Box, Stack, TextField, FormControl, Select, MenuItem } from "@mui/material"
+import { Grid, Box, Stack, TextField, IconButton, Tooltip } from "@mui/material"
 import { useState } from "react"
-import { Link } from 'react-router-dom'
+import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import Question from "../../components/CreateSurvey.tsx/Question"
 import "./CreateSurvey.css"
+import FormatTools from "../../components/CreateSurvey.tsx/FormatToolsName";
+import FormatToolsName from "../../components/CreateSurvey.tsx/FormatToolsName";
+import FormatToolsDesc from "../../components/CreateSurvey.tsx/FormatToolsDesc";
 
 const CreateSurvey = () => {
     const [questions, setQuestions] = useState([{
@@ -10,6 +13,56 @@ const CreateSurvey = () => {
         questionType: 'textbox',
         required: false
     }])
+    const [openFormatToolsName, setOpenFormatToolsName] = useState(false)
+    const [anchorElName, setAnchorElName] = useState(null)
+    const [surveyNameStyle, setSurveyNameStyle] = useState({})
+    const [disableToolsButtonName, setDisableToolsButtonName] = useState(true)
+    const openNameTools = Boolean(anchorElName)
+
+    const [openFormatTools, setOpenFormatTools] = useState(false)
+    const [anchorElDesc, setAnchorElDesc] = useState(null)
+    const [surveyDescStyle, setSurveyDescStyle] = useState({})
+    const [disableToolsButtonDesc, setDisableToolsButtonDesc] = useState(true)
+    const openDescTools = Boolean(anchorElDesc)
+
+    // const surveyNameStyle = {
+    //     '& input': {
+
+    //     }
+    // }
+
+    const handleSurveyName = (e: any) => {
+        if (e.target.value.length > 0) setDisableToolsButtonName(false)
+        else setDisableToolsButtonName(true)
+    }
+    
+    const handleSurveyDesc = (e: any) => {
+        if (e.target.value.length > 0) setDisableToolsButtonDesc(false)
+        else setDisableToolsButtonDesc(true)
+    }
+
+    const handleOpenFormatToolsName = (e: any) => {
+        console.log("handleOpenFormatTools:", e.currentTarget)
+        setAnchorElName(e.currentTarget)
+    }
+
+    const handleCloseFormatToolsName = () => {
+        setAnchorElName(null);
+    };
+
+    const handleOpenFormatToolsDesc = (e: any) => {
+        console.log("handleOpenFormatTools:", e.currentTarget)
+        setAnchorElDesc(e.currentTarget)
+    }
+
+    const handleCloseFormatToolsDesc = () => {
+        setAnchorElDesc(null);
+    };
+
+    const handleFormatTools = (e: any) => {
+        console.log(e)
+        setOpenFormatToolsName(!openFormatToolsName)
+    }
 
     return (
 
@@ -27,22 +80,74 @@ const CreateSurvey = () => {
             <Grid item md={12} container className="question-container">
                 <Grid item xs={12} sm={12} md={10}>
                     <Box className="survey-details">
-                        <TextField
-                            variant="outlined"
-                            className="mtb-1"
-                            label="Survey Name"
-                            fullWidth={true}
-                            autoFocus
-                            placeholder='Enter survey name'
+                        <Box sx={{ display: 'flex' }}>
+                            <TextField
+                                variant="outlined"
+                                className="mtb-1"
+                                sx={surveyNameStyle}
+                                label="Survey Name"
+                                fullWidth={true}
+                                autoFocus
+                                placeholder='Enter survey name'
+                                onChange={handleSurveyName}
+                            />
+                            {
+                                !disableToolsButtonName && (
+                                    <Box sx={{ display: 'flex' }}>
+                                        <IconButton onClick={handleOpenFormatToolsName}>
+                                            <Tooltip title="formatting tools">
+                                                <FormatColorFillIcon className="color-one" />
+                                            </Tooltip>
+                                        </IconButton>
+                                    </Box>
+                                )
+                            }
+                        </Box>
+
+                        <FormatToolsName
+                            anchorEl={anchorElName}
+                            setAnchorEl={setAnchorElName}
+                            surveyNameStyle={surveyNameStyle}
+                            setSurveyNameStyle={setSurveyNameStyle}
+                            open={openNameTools}
+                            handleOpenFormatTools={handleOpenFormatToolsName}
+                            handleCloseFomrmatTools={handleCloseFormatToolsName}
                         />
-                        <TextField
-                            variant="outlined"
-                            className="mtb-1"
-                            label="Survey description"
-                            fullWidth={true}
-                            autoFocus
-                            placeholder='Enter survey description'
+                        {/* ) : ("")
+                        } */}
+
+                        <Box sx={{ display: 'flex' }}>
+                            <TextField
+                                variant="outlined"
+                                className="mtb-1"
+                                label="Survey description"
+                                sx={surveyDescStyle}
+                                fullWidth={true}
+                                onChange={handleSurveyDesc}
+                                autoFocus
+                                placeholder='Enter survey description'
+                            />
+                            {
+                                !disableToolsButtonDesc && (
+                                    <Box sx={{ display: 'flex' }}>
+                                        <IconButton onClick={handleOpenFormatToolsDesc}>
+                                            <Tooltip title="formatting tools">
+                                                <FormatColorFillIcon className="color-one" />
+                                            </Tooltip>
+                                        </IconButton>
+                                    </Box>
+                                )
+                            }
+                            <FormatToolsDesc
+                            anchorEl={anchorElDesc}
+                            setAnchorEl={setAnchorElDesc}
+                            surveyNameStyle={surveyDescStyle}
+                            setSurveyNameStyle={setSurveyDescStyle}
+                            open={openDescTools}
+                            handleOpenFormatTools={handleOpenFormatToolsDesc}
+                            handleCloseFomrmatTools={handleCloseFormatToolsDesc}
                         />
+                        </Box>
                     </Box>
                 </Grid>
             </Grid>
