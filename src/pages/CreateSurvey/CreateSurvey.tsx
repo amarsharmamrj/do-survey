@@ -1,4 +1,4 @@
-import { Grid, Box, Stack, TextField, IconButton, Tooltip } from "@mui/material"
+import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button } from "@mui/material"
 import { useState } from "react"
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import Question from "../../components/CreateSurvey.tsx/Question"
@@ -6,39 +6,45 @@ import "./CreateSurvey.css"
 import FormatTools from "../../components/CreateSurvey.tsx/FormatToolsName";
 import FormatToolsName from "../../components/CreateSurvey.tsx/FormatToolsName";
 import FormatToolsDesc from "../../components/CreateSurvey.tsx/FormatToolsDesc";
-
+import axios from 'axios'
 const CreateSurvey = () => {
-    const [questions, setQuestions] = useState([{
-        id: 1,
-        questionType: 'textbox',
-        required: false
-    }])
-    const [openFormatToolsName, setOpenFormatToolsName] = useState(false)
+    const [openFormatToolsName, setOpenFormatToolsName] = useState(false)  
     const [anchorElName, setAnchorElName] = useState(null)
     const [surveyNameStyle, setSurveyNameStyle] = useState({})
     const [disableToolsButtonName, setDisableToolsButtonName] = useState(true)
     const openNameTools = Boolean(anchorElName)
 
-    const [openFormatTools, setOpenFormatTools] = useState(false)
+    const [openFormatTools, setOpenFormatTools] = useState(false) 
     const [anchorElDesc, setAnchorElDesc] = useState(null)
     const [surveyDescStyle, setSurveyDescStyle] = useState({})
     const [disableToolsButtonDesc, setDisableToolsButtonDesc] = useState(true)
     const openDescTools = Boolean(anchorElDesc)
 
-    // const surveyNameStyle = {
-    //     '& input': {
-
-    //     }
-    // }
+    // data states
+    const [surveyName, setSurveyName] = useState('')
+    const [surveyDesc, setSurveyDesc] = useState('')
+    const [questions, setQuestions] = useState([{
+        id: 1,
+        questionType: 'textbox',
+        required: false
+    }])
 
     const handleSurveyName = (e: any) => {
         if (e.target.value.length > 0) setDisableToolsButtonName(false)
         else setDisableToolsButtonName(true)
+
+        if (e.target.value.trim().length > 0) {
+            setSurveyName(e.target.value)
+        }
     }
-    
+
     const handleSurveyDesc = (e: any) => {
         if (e.target.value.length > 0) setDisableToolsButtonDesc(false)
         else setDisableToolsButtonDesc(true)
+
+        if (e.target.value.trim().length > 0) {
+            setSurveyDesc(e.target.value)
+        }
     }
 
     const handleOpenFormatToolsName = (e: any) => {
@@ -63,6 +69,25 @@ const CreateSurvey = () => {
         console.log(e)
         setOpenFormatToolsName(!openFormatToolsName)
     }
+
+    const handleSave = () => {
+        const model = {
+            surveyName: surveyName,
+            surveyDesc: surveyDesc,
+            start_date: "11/07/2023",
+            end_date: "20/07/2023",
+            questions: JSON.stringify(questions)
+        }
+        console.log("model:", model)
+
+        axios.post('http://localhost:4000/survey/create', model)
+        .then((res:any) => {
+            console.log("save survey:", res)
+        })
+        .catch((err:any) => {
+            console.log("create survey err:", err)
+        })
+    } 
 
     return (
 
@@ -139,14 +164,14 @@ const CreateSurvey = () => {
                                 )
                             }
                             <FormatToolsDesc
-                            anchorEl={anchorElDesc}
-                            setAnchorEl={setAnchorElDesc}
-                            surveyNameStyle={surveyDescStyle}
-                            setSurveyNameStyle={setSurveyDescStyle}
-                            open={openDescTools}
-                            handleOpenFormatTools={handleOpenFormatToolsDesc}
-                            handleCloseFomrmatTools={handleCloseFormatToolsDesc}
-                        />
+                                anchorEl={anchorElDesc}
+                                setAnchorEl={setAnchorElDesc}
+                                surveyNameStyle={surveyDescStyle}
+                                setSurveyNameStyle={setSurveyDescStyle}
+                                open={openDescTools}
+                                handleOpenFormatTools={handleOpenFormatToolsDesc}
+                                handleCloseFomrmatTools={handleCloseFormatToolsDesc}
+                            />
                         </Box>
                     </Box>
                 </Grid>
@@ -161,6 +186,13 @@ const CreateSurvey = () => {
                         })
                     ) : ('')
                 }
+            </Grid>
+            <Grid container item md={12} className="question-container ptb2">
+                <Grid item xs={12} sm={12} md={10} sx={{margin: '0', padding: '0'}}>
+                    <Stack direction="row" justifyContent="flex-end" className="stack p0">
+                        <Button variant="contained" onClick={handleSave}>Save</Button>
+                    </Stack>
+                </Grid>
             </Grid>
         </Grid>
     )

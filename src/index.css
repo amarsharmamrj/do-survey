@@ -20,6 +20,13 @@ code {
   color: #F86F03 !important;
 }
 
+.m0{
+  margin: 0 !important;
+}
+
+.p0{
+  padding: 0 !important;
+}
 
 .bg-one {
   background-color: #525FE1 !important;
@@ -53,6 +60,15 @@ code {
   margin-bottom: 1rem !important;
 }
 
+.ptb-1 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.ptb-2 {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
 
 
 
