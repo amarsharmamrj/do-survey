@@ -98,6 +98,15 @@ const Question = (props: any) => {
     const handleOptionChange = (e: any, optionId: number, questionId: number) => {
         const questionData: any = questions.find((question: any) => question.id === questionId)
         if (e.key === 'Enter' && questionData && questionData.options.at(-1).id === optionId) handleAddOption(questionId)
+        if (questionData) {
+            const optionsData = questionData.options.map((item: any) => {
+                if (item.id === optionId) item.label = e.target.value
+                return item
+            })
+            let newQuestionData = { ...questionData, options: optionsData }
+            const filterQuestions = questions.filter((item: any) => item.id != questionId)
+            setQuestions([...filterQuestions, newQuestionData])
+        }
     }
 
     return (
@@ -119,6 +128,8 @@ const Question = (props: any) => {
                             <Textbox
                                 question={question}
                                 handleQuestionType={handleQuestionType}
+                                questions={questions}
+                                setQuestions={setQuestions}
                             />
 
                         ) : (
@@ -129,20 +140,24 @@ const Question = (props: any) => {
                                     handleOptionChange={handleOptionChange}
                                     handleDeleteOption={handleDeleteOption}
                                     handleAddOption={handleAddOption}
+                                    questions={questions}
+                                    setQuestions={setQuestions}
                                     checked={checked}
                                     setChecked={setChecked}
                                 />
                             ) : (
                                 question.questionType === 'checkbox' ? (
                                     <Checkboxes
-                                    question={question}
-                                    handleQuestionType={handleQuestionType}
-                                    handleOptionChange={handleOptionChange}
-                                    handleDeleteOption={handleDeleteOption}
-                                    handleAddOption={handleAddOption}
-                                    checked={checked}
-                                    setChecked={setChecked}
-                                />
+                                        question={question}
+                                        handleQuestionType={handleQuestionType}
+                                        handleOptionChange={handleOptionChange}
+                                        handleDeleteOption={handleDeleteOption}
+                                        handleAddOption={handleAddOption}
+                                        questions={questions}
+                                        setQuestions={setQuestions}
+                                        checked={checked}
+                                        setChecked={setChecked}
+                                    />
                                 ) : <p>other</p>
                             )
                         )

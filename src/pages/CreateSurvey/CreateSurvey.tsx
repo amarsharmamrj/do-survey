@@ -1,20 +1,22 @@
 import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button } from "@mui/material"
 import { useState } from "react"
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
-import Question from "../../components/CreateSurvey.tsx/Question"
+import Question from "../../components/CreateSurvey/Question"
 import "./CreateSurvey.css"
-import FormatTools from "../../components/CreateSurvey.tsx/FormatToolsName";
-import FormatToolsName from "../../components/CreateSurvey.tsx/FormatToolsName";
-import FormatToolsDesc from "../../components/CreateSurvey.tsx/FormatToolsDesc";
-import axios from 'axios'
+import FormatTools from "../../components/CreateSurvey/FormatToolsName";
+import FormatToolsName from "../../components/CreateSurvey/FormatToolsName";
+import FormatToolsDesc from "../../components/CreateSurvey/FormatToolsDesc";
+import axios from 'axios' 
+import dayjs from 'dayjs'
+
 const CreateSurvey = () => {
-    const [openFormatToolsName, setOpenFormatToolsName] = useState(false)  
+    const [openFormatToolsName, setOpenFormatToolsName] = useState(false)
     const [anchorElName, setAnchorElName] = useState(null)
     const [surveyNameStyle, setSurveyNameStyle] = useState({})
     const [disableToolsButtonName, setDisableToolsButtonName] = useState(true)
     const openNameTools = Boolean(anchorElName)
 
-    const [openFormatTools, setOpenFormatTools] = useState(false) 
+    const [openFormatTools, setOpenFormatTools] = useState(false)
     const [anchorElDesc, setAnchorElDesc] = useState(null)
     const [surveyDescStyle, setSurveyDescStyle] = useState({})
     const [disableToolsButtonDesc, setDisableToolsButtonDesc] = useState(true)
@@ -71,11 +73,15 @@ const CreateSurvey = () => {
     }
 
     const handleSave = () => {
+        console.log("questions:", questions)
+
         const model = {
             surveyName: surveyName,
+            surveyNameStyle: JSON.stringify(surveyNameStyle),
             surveyDesc: surveyDesc,
-            start_date: "11/07/2023",
-            end_date: "20/07/2023",
+            surveyDescStyle: JSON.stringify(surveyDescStyle),
+            start_date: dayjs(new Date).format("DD/MM/YYYY"),
+            end_date: "20/10/2028",
             questions: JSON.stringify(questions)
         }
         console.log("model:", model)
@@ -87,7 +93,7 @@ const CreateSurvey = () => {
         .catch((err:any) => {
             console.log("create survey err:", err)
         })
-    } 
+    }
 
     return (
 
@@ -188,7 +194,7 @@ const CreateSurvey = () => {
                 }
             </Grid>
             <Grid container item md={12} className="question-container ptb2">
-                <Grid item xs={12} sm={12} md={10} sx={{margin: '0', padding: '0'}}>
+                <Grid item xs={12} sm={12} md={10} sx={{ margin: '0', padding: '0' }}>
                     <Stack direction="row" justifyContent="flex-end" className="stack p0">
                         <Button variant="contained" onClick={handleSave}>Save</Button>
                     </Stack>
