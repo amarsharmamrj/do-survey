@@ -2,10 +2,10 @@ import { Grid, Box, Switch, IconButton, Divider, Tooltip, Zoom } from "@mui/mate
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
-import Textbox from "./Textbox";
-import Multiple from "./Multiple";
+import Textbox from "../ViewSurvey/Textbox";
+import Multiple from "../ViewSurvey/Multiple";
 import Actions from "./Actions";
-import Checkboxes from "./Checkboxes";
+import Checkboxes from "../ViewSurvey/Checkboxes";
 
 const Question = (props: any) => {
     const { question, questions, setQuestions } = props
@@ -123,7 +123,7 @@ const Question = (props: any) => {
         <Grid item xs={12} sm={12} md={10}>
             <Zoom in={true}>
                 <Box className="question-box">
-                    {
+                    {/* {
                         question.questionType === 'multiple' && (
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', direction: 'row-reverse', alignItems: 'center' }}>
                                 {checked ? 'Collapse' : 'Expand'}
@@ -132,7 +132,7 @@ const Question = (props: any) => {
                                 </IconButton>
                             </Box>
                         )
-                    }
+                    } */}
                     {
                         question.questionType === 'textbox' ? (
                             <Textbox
@@ -173,14 +173,14 @@ const Question = (props: any) => {
                         )
                     }
 
-                    <Divider sx={{ marginTop: '1rem' }} />
+                    {/* <Divider sx={{ marginTop: '1rem' }} />
 
                     <Actions
                         question={question}
                         handleRequired={handleRequired}
                         handleDeleteQuestion={handleDeleteQuestion}
                         handleAddQuestion={handleAddQuestion}
-                    />
+                    /> */}
 
                 </Box>
             </Zoom>

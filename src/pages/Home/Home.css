@@ -2,10 +2,24 @@
     padding: 2rem 4rem;
 }
 
-.stack{
+.stack {
     padding: 0 1rem;
 }
 
+.open{
+    color: green;
+}
+
+.closed{
+    color: orange;
+}
+
+.survey-title{
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .survey-card-item {
     padding: 0.8rem 1rem;
@@ -21,25 +35,21 @@
 }
 
 .survey-card:hover {
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
-.survey-title{
-    
-}
-
-.survey-modified-date{
+.survey-modified-date {
     font-size: 1rem !important;
     margin: 0 !important;
 }
 
-.survey-status-label{
+.survey-status-label {
     font-size: 0.9rem !important;
     margin: 0 !important;
     margin-top: 2rem !important;
 }
 
-.survey-status{
+.survey-status {
     font-size: 1rem !important;
     margin: 0 !important;
     margin-bottom: 2rem !important;
@@ -57,7 +67,7 @@
         flex-direction: column-reverse !important;
         justify-content: space-between !important;
         flex-basis: 2;
-        padding: 0 0.5rem ;
+        padding: 0 0.5rem;
     }
 
     .survey-card-item {

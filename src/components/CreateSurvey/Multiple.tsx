@@ -4,9 +4,9 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import QuestionType from "./QuestionType";
 
 const Multiple = (props: any) => {
-    const { checked, question, handleQuestionType, handleOptionChange, handleDeleteOption, handleAddOption,  questions, setQuestions } = props
+    const { checked, question, handleQuestionType, handleOptionChange, handleDeleteOption, handleAddOption, questions, setQuestions } = props
 
-    const handleQuestionLabel = (e:any) => {
+    const handleQuestionLabel = (e: any) => {
         console.log("handleQuestionLabel")
         const questionData = questions.map((item: any) => {
             if (item.id === question.id) {
@@ -27,6 +27,7 @@ const Multiple = (props: any) => {
                     variant="outlined"
                     fullWidth={true}
                     placeholder='Enter question'
+                    value={question.label}
                     onChange={handleQuestionLabel}
 
                 />
@@ -47,6 +48,8 @@ const Multiple = (props: any) => {
                                                 className="option-label"
                                                 placeholder='Option'
                                                 autoFocus
+                                                defaultValue={option.label}
+                                                // value={option.label}
                                                 onKeyUp={(e) => handleOptionChange(e, option.id, question.id)}
                                             />
                                         </Box>

@@ -1,3 +1,4 @@
+import { Label } from "@mui/icons-material"
 import { Box, TextField, FormControl, Select, MenuItem } from "@mui/material"
 import QuestionType from "./QuestionType"
 
@@ -18,17 +19,19 @@ const Textbox = (props: any) => {
     }
 
     return (
-        <Box className="question-section">
+        <Box>
+            <h4 className="questioon-label">{question.label}</h4>
             <TextField
                 id={question.id}
                 variant="outlined"
                 fullWidth={true}
-                autoFocus
-                placeholder='Enter question'
-                value={question.label}
-                onChange={handleQuestionLabel}
+                autoComplete="off"
+                // label={question.label}
+                placeholder='Type answer'
+                // value={question.label}
+                // onChange={handleQuestionLabel}
             />
-            <QuestionType question={question} handleQuestionType={handleQuestionType} />
+            {/* <QuestionType question={question} handleQuestionType={handleQuestionType} /> */}
         </Box>
     )
 }
