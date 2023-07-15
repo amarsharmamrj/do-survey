@@ -1,19 +1,23 @@
-import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button } from "@mui/material"
+import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button, CircularProgress } from "@mui/material"
 import { useState } from "react"
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import Question from "../../components/CreateSurvey/Question"
 import "./CreateSurvey.css"
-import FormatTools from "../../components/CreateSurvey/FormatToolsName";
 import FormatToolsName from "../../components/CreateSurvey/FormatToolsName";
 import FormatToolsDesc from "../../components/CreateSurvey/FormatToolsDesc";
-import axios from 'axios' 
+import axios from 'axios'
 import dayjs from 'dayjs'
+import { enqueueSnackbar } from 'notistack'
+import { useNavigate } from "react-router-dom";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const CreateSurvey = () => {
+    const navigate = useNavigate()
     const [openFormatToolsName, setOpenFormatToolsName] = useState(false)
     const [anchorElName, setAnchorElName] = useState(null)
     const [surveyNameStyle, setSurveyNameStyle] = useState({})
     const [disableToolsButtonName, setDisableToolsButtonName] = useState(true)
+    const [disablesave, setDisableSave] = useState(false)
     const openNameTools = Boolean(anchorElName)
 
     const [openFormatTools, setOpenFormatTools] = useState(false)
@@ -21,15 +25,18 @@ const CreateSurvey = () => {
     const [surveyDescStyle, setSurveyDescStyle] = useState({})
     const [disableToolsButtonDesc, setDisableToolsButtonDesc] = useState(true)
     const openDescTools = Boolean(anchorElDesc)
+    const [loading, setLoading] = useState(false)
 
     // data states
     const [surveyName, setSurveyName] = useState('')
     const [surveyDesc, setSurveyDesc] = useState('')
-    const [questions, setQuestions] = useState([{
-        id: 1,
-        questionType: 'textbox',
-        required: false
-    }])
+    const [questions, setQuestions] = useState<any>([])
+
+    // {
+    //     id: 1,
+    //     questionType: 'textbox',
+    //     required: false
+    // }
 
     const handleSurveyName = (e: any) => {
         if (e.target.value.length > 0) setDisableToolsButtonName(false)
@@ -72,7 +79,17 @@ const CreateSurvey = () => {
         setOpenFormatToolsName(!openFormatToolsName)
     }
 
+    const handleAddQuestion = () => {
+        let newQuestion = {
+            id: 1,
+            questionType: 'textbox',
+            required: false
+        }
+        setQuestions([...questions, newQuestion])
+    }
+
     const handleSave = () => {
+        setLoading(true)
         console.log("questions:", questions)
 
         const model = {
@@ -87,12 +104,18 @@ const CreateSurvey = () => {
         console.log("model:", model)
 
         axios.post('http://localhost:4000/survey/create', model)
-        .then((res:any) => {
-            console.log("save survey:", res)
-        })
-        .catch((err:any) => {
-            console.log("create survey err:", err)
-        })
+            .then((res: any) => {
+                console.log("save survey:", res)
+                enqueueSnackbar('Saved successfullly!', { variant: 'success', autoHideDuration: 1000 })
+                setTimeout(() => {
+                    navigate("/")
+                }, 1000)
+            })
+            .catch((err: any) => {
+                setLoading(false)
+                console.log("create survey err:", err)
+                enqueueSnackbar('Something went wrong!!', { variant: 'error', autoHideDuration: 1000})
+            })
     }
 
     return (
@@ -119,6 +142,8 @@ const CreateSurvey = () => {
                                 label="Survey Name"
                                 fullWidth={true}
                                 autoFocus
+                                autoComplete="off"
+                                autoCapitalize="true"
                                 placeholder='Enter survey name'
                                 onChange={handleSurveyName}
                             />
@@ -127,7 +152,7 @@ const CreateSurvey = () => {
                                     <Box sx={{ display: 'flex' }}>
                                         <IconButton onClick={handleOpenFormatToolsName}>
                                             <Tooltip title="formatting tools">
-                                                <FormatColorFillIcon className="color-one" />
+                                                <FormatColorFillIcon className="color-two" />
                                             </Tooltip>
                                         </IconButton>
                                     </Box>
@@ -155,7 +180,7 @@ const CreateSurvey = () => {
                                 sx={surveyDescStyle}
                                 fullWidth={true}
                                 onChange={handleSurveyDesc}
-                                autoFocus
+                                autoComplete="off"
                                 placeholder='Enter survey description'
                             />
                             {
@@ -163,7 +188,7 @@ const CreateSurvey = () => {
                                     <Box sx={{ display: 'flex' }}>
                                         <IconButton onClick={handleOpenFormatToolsDesc}>
                                             <Tooltip title="formatting tools">
-                                                <FormatColorFillIcon className="color-one" />
+                                                <FormatColorFillIcon className="color-two" />
                                             </Tooltip>
                                         </IconButton>
                                     </Box>
@@ -179,6 +204,20 @@ const CreateSurvey = () => {
                                 handleCloseFomrmatTools={handleCloseFormatToolsDesc}
                             />
                         </Box>
+                        {
+                            questions.length === 0 && (
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button
+                                        variant="contained"
+                                        size="small"
+                                        onClick={handleAddQuestion}
+                                    >
+                                        <AddCircleIcon className="mr-1" />
+                                        Add question
+                                    </Button>
+                                </Box>
+                            )
+                        }
                     </Box>
                 </Grid>
             </Grid>
@@ -194,9 +233,15 @@ const CreateSurvey = () => {
                 }
             </Grid>
             <Grid container item md={12} className="question-container ptb2">
-                <Grid item xs={12} sm={12} md={10} sx={{ margin: '0', padding: '0' }}>
+                <Grid item xs={12} sm={12} md={10} sx={{ margin: '1rem 0', padding: '0' }}>
                     <Stack direction="row" justifyContent="flex-end" className="stack p0">
-                        <Button variant="contained" onClick={handleSave}>Save</Button>
+                        <Button
+                            variant="contained"
+                            disabled={questions.length === 0 || loading === true ? true : false}
+                            onClick={handleSave}
+                        >
+                            {loading ? <CircularProgress size={27} /> : 'Save'}
+                        </Button>
                     </Stack>
                 </Grid>
             </Grid>

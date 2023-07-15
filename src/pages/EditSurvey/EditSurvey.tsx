@@ -1,4 +1,4 @@
-import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button } from "@mui/material"
+import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button, CircularProgress } from "@mui/material"
 import { useEffect, useState } from "react"
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import Question from "../../components/CreateSurvey/Question"
@@ -9,8 +9,12 @@ import FormatToolsDesc from "../../components/CreateSurvey/FormatToolsDesc";
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { useParams } from "react-router-dom";
+import { enqueueSnackbar } from 'notistack'
+import { useNavigate, Link } from "react-router-dom";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 const EditSurvey = () => {
+    const navigate = useNavigate()
     const { id: surveyId } = useParams();
     console.log("survey id:", surveyId)
 
@@ -25,6 +29,8 @@ const EditSurvey = () => {
     const [surveyDescStyle, setSurveyDescStyle] = useState({})
     const [disableToolsButtonDesc, setDisableToolsButtonDesc] = useState(true)
     const openDescTools = Boolean(anchorElDesc)
+
+    const [loading, setLoading] = useState(false)
 
     // data states
     const [surveyName, setSurveyName] = useState('')
@@ -77,6 +83,7 @@ const EditSurvey = () => {
     }
 
     const handleUpdate = () => {
+        setLoading(true)
         console.log("questions:", questions)
 
         const model = {
@@ -94,9 +101,15 @@ const EditSurvey = () => {
         axios.put(`http://localhost:4000/survey`, model)
             .then((res: any) => {
                 console.log("update survey:", res)
+                enqueueSnackbar('Updated successfullly!', { variant: 'success', autoHideDuration: 1000 })
+                setTimeout(() => {
+                    navigate("/")
+                }, 1000)
             })
             .catch((err: any) => {
+                setLoading(false)
                 console.log("update survey err:", err)
+                enqueueSnackbar('Something went wrong!!', { variant: 'error', autoHideDuration: 1000 })
             })
     }
 
@@ -224,9 +237,33 @@ const EditSurvey = () => {
                 }
             </Grid>
             <Grid container item md={12} className="question-container ptb2">
-                <Grid item xs={12} sm={12} md={10} sx={{ margin: '0', padding: '0' }}>
+                <Grid item xs={12} sm={12} md={10} sx={{ margin: '1rem 0', padding: '0' }}>
                     <Stack direction="row" justifyContent="flex-end" className="stack p0">
-                        <Button variant="contained" onClick={handleUpdate}>Update</Button>
+                        <Button
+                            variant="contained"
+                            component={Link}
+                            to={`/survey/${surveyId}`}
+                            target="_blank"
+                            className="mlr-2 bg-two"
+                        ><RemoveRedEyeIcon className="mr-1"
+                            />
+                            Preview
+                        </Button>
+                        <Button
+                            variant="contained"
+                            disabled={loading}
+                            onClick={handleUpdate}
+                        >
+                            {
+                                loading
+                                    ? <CircularProgress
+                                        size={27}
+                                        className="mlr-2"
+                                    />
+                                    :
+                                    'Update'
+                            }
+                        </Button>
                     </Stack>
                 </Grid>
             </Grid>

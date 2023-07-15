@@ -1,14 +1,14 @@
 import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button, Typography, Fab } from "@mui/material"
 import { useEffect, useState } from "react"
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
-import Question from "../../components/ViewSurvey/Question"
+import Question from "../../components/SubmitSurvey/Question"
 import "../ViewSurvey/ViewSurvey.css"
-import EditIcon from '@mui/icons-material/Edit';
+import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { useParams, Link } from "react-router-dom";
 
-const ViewSurvey = () => {
+const SubmitSurvey = () => {
     const { id: surveyId } = useParams();
     console.log("survey id:", surveyId)
 
@@ -123,6 +123,7 @@ const ViewSurvey = () => {
                     console.log("error in getting survey data:", err)
                 })
         }
+        
     }, [surveyId])
 
     return (
@@ -166,7 +167,7 @@ const ViewSurvey = () => {
                             to={`/survey/edit/${surveyId}`}
                             className="mtb-2"
                         >
-                            <EditIcon className="mr-2" /> Edit Survey
+                            <SendIcon className="mr-2" /> Submit
                         </Button>
                     </Stack>
                 </Grid>
@@ -175,4 +176,4 @@ const ViewSurvey = () => {
     )
 }
 
-export default ViewSurvey
+export default SubmitSurvey

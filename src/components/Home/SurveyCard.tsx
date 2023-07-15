@@ -7,6 +7,7 @@ import { useState } from "react"
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import ShareIcon from '@mui/icons-material/Share';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 
 const SurveyCard = (props: any) => {
     const { survey } = props
@@ -16,11 +17,11 @@ const SurveyCard = (props: any) => {
         setAnchorEl(e.currentTarget)
     }
     const handleMenuClose = () => setAnchorEl(null)
-   
+
     return (
         <Box className='survey-card'>
             <Stack direction='row' justifyContent={'flex-end'}>
-                <IconButton onClick={handleMenuOpen}>
+                <IconButton onClick={handleMenuOpen} className="color-two">
                     <MoreHorizIcon />
                 </IconButton>
             </Stack>
@@ -30,16 +31,26 @@ const SurveyCard = (props: any) => {
             <Typography variant='h6' className="survey-status-label">Status</Typography>
             <Typography variant='h6' className="survey-status"><b className={survey.active ? 'open' : 'closed'}>{survey.active ? 'Open' : 'Closed'}</b></Typography>
 
-            <Button component={Link} to={`/survey/edit/${survey._id}`} variant='outlined' fullWidth={true}>Open Survey</Button>
+            <Button
+                component={Link}
+                to={`/survey/edit/${survey._id}`}
+                variant='outlined'
+                fullWidth={true}
+                sx={{ color: 'white' }}
+                className="bg-one"
+            >
+                Open Survey
+            </Button>
 
             <Menu
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleMenuClose}
             >
-                <MenuItem component={Link} to={`survey/${survey._id}`}><RemoveRedEyeIcon className="mr-1" />View</MenuItem>
-                <MenuItem component={Link} to={`/survey/edit/${survey._id}`}><EditIcon  className="mr-1"/>Edit</MenuItem>
-                <MenuItem><ShareIcon className="mr-1" /> Share</MenuItem>
+                <MenuItem component={Link} to={`survey/${survey._id}`} target='_blank'><RemoveRedEyeIcon className="mr-1 color-two" />Preview</MenuItem>
+                <MenuItem component={Link} to={`/survey/edit/${survey._id}`}><EditIcon className="mr-1 color-two" />Edit</MenuItem>
+                <MenuItem component={Link} to={`/survey/submit/${survey._id}`}><ShareIcon className="mr-1 color-two" /> Share</MenuItem>
+                <MenuItem><ChecklistIcon className="mr-1 color-two" /> Submissions</MenuItem>
             </Menu>
         </Box>
     )

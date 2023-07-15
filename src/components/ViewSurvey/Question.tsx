@@ -1,4 +1,4 @@
-import { Grid, Box, Switch, IconButton, Divider, Tooltip, Zoom } from "@mui/material"
+import { Grid, Box, Switch, IconButton, Divider, Tooltip, Zoom, Slide } from "@mui/material"
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
@@ -121,7 +121,7 @@ const Question = (props: any) => {
 
     return (
         <Grid item xs={12} sm={12} md={10}>
-            <Zoom in={true}>
+            <Slide in={true} direction="up">
                 <Box className="question-box">
                     {/* {
                         question.questionType === 'multiple' && (
@@ -183,7 +183,7 @@ const Question = (props: any) => {
                     /> */}
 
                 </Box>
-            </Zoom>
+            </Slide>
 
         </Grid >
     )

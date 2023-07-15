@@ -1,4 +1,4 @@
-import { Grid, Box, Switch, IconButton, Divider, Tooltip, Zoom } from "@mui/material"
+import { Grid, Box, Switch, IconButton, Divider, Tooltip, Zoom, Slide } from "@mui/material"
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
@@ -10,6 +10,7 @@ import Checkboxes from "./Checkboxes";
 const Question = (props: any) => {
     const { question, questions, setQuestions } = props
     const [checked, setChecked] = useState(true);
+    const [autoFocus, setAutoFocus] = useState(false);
 
     const handleQuestionType = (e: any) => {
         console.log("questions:", questions)
@@ -18,10 +19,10 @@ const Question = (props: any) => {
             if (item.id === question.id) {
                 item.questionType = e.target.value
                 if (e.target.value === 'multiple') {
-                    item.options = [{ id: 1000, label: 'Option' }]
+                    item.options = [{ id: 1000, label: '' }]
                 }
                 if (e.target.value === 'checkbox') {
-                    item.options = [{ id: 1000, label: 'Option' }]
+                    item.options = [{ id: 1000, label: '' }]
                 }
             }
             return item
@@ -46,10 +47,11 @@ const Question = (props: any) => {
     }
 
     const handleAddOption = (questionId: number) => {
+        setAutoFocus(true)
         console.log("add")
         const questionData = questions.map((item: any) => {
             if (item.id === questionId) {
-                item.options = [...item.options, { id: item.options.at(-1).id + 1, label: 'Option' }]
+                item.options = [...item.options, { id: item.options.at(-1).id + 1, label: '' }]
             }
             return item
         })
@@ -96,32 +98,46 @@ const Question = (props: any) => {
     }
 
     const handleOptionChange = (e: any, optionId: number, questionId: number) => {
-        console.log("option value:", e.target.value)
-        const questionData: any = questions.find((question: any) => question.id === questionId)
-        console.log("option questionData:", questionData)
-
-        if (e.key === 'Enter' && questionData && questionData.options.at(-1).id === optionId) handleAddOption(questionId)
-        if (questionData) {
-            const optionsData = questionData.options.map((item: any) => {
-                if (item.id === optionId) item.label = e.target.value
-                return item
-            })
-            console.log("option optionsData:", optionsData)
-
-            let newQuestionData = { ...questionData, options: optionsData }
-            console.log("option newQuestionData:", newQuestionData)
-
-            const filterQuestions = questions.filter((item: any) => item.id != questionId)
-            console.log("option filterQuestions:", filterQuestions)
-
-            console.log("after option change:", [...filterQuestions, newQuestionData])
-            setQuestions([...filterQuestions, newQuestionData])
-        }
+        if (e.key === 'Enter' && questions && questions.find((question: any) => question.id === questionId).options.at(-1).id === optionId) handleAddOption(questionId)
+        const newQuestions = questions.map((question: any) => {
+            if (question.id === questionId) {
+                question.options.map((option: any) => {
+                    if (option.id === optionId) option.label = e.target.value
+                })
+            }
+            return question
+        })
+        console.log("new aa:", newQuestions)
+        setQuestions(newQuestions)
     }
+
+    // const handleOptionChange = (e: any, optionId: number, questionId: number) => {
+    //     console.log("option value:", e.target.value)
+    //     const questionData: any = questions.find((question: any) => question.id === questionId)
+    //     console.log("option questionData:", questionData)
+
+    //     if (e.key === 'Enter' && questionData && questionData.options.at(-1).id === optionId) handleAddOption(questionId)
+    //     if (questionData) {
+    //         const optionsData = questionData.options.map((item: any) => {
+    //             if (item.id === optionId) item.label = e.target.value
+    //             return item
+    //         })
+    //         console.log("option optionsData:", optionsData)
+
+    //         let newQuestionData = { ...questionData, options: optionsData }
+    //         console.log("option newQuestionData:", newQuestionData)
+
+    //         const filterQuestions = questions.filter((item: any) => item.id != questionId)
+    //         console.log("option filterQuestions:", filterQuestions)
+
+    //         console.log("after option change:", [...filterQuestions, newQuestionData])
+    //         setQuestions([...filterQuestions, newQuestionData])
+    //     }
+    // }
 
     return (
         <Grid item xs={12} sm={12} md={10}>
-            <Zoom in={true}>
+            <Slide in={true} direction="up">
                 <Box className="question-box">
                     {
                         question.questionType === 'multiple' && (
@@ -154,6 +170,7 @@ const Question = (props: any) => {
                                     setQuestions={setQuestions}
                                     checked={checked}
                                     setChecked={setChecked}
+                                    autoFocus={autoFocus}
                                 />
                             ) : (
                                 question.questionType === 'checkbox' ? (
@@ -167,6 +184,7 @@ const Question = (props: any) => {
                                         setQuestions={setQuestions}
                                         checked={checked}
                                         setChecked={setChecked}
+                                        autoFocus={autoFocus}
                                     />
                                 ) : <p>other</p>
                             )
@@ -183,7 +201,7 @@ const Question = (props: any) => {
                     />
 
                 </Box>
-            </Zoom>
+            </Slide>
 
         </Grid >
     )

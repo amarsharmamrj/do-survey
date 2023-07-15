@@ -20,11 +20,11 @@ code {
   color: #F86F03 !important;
 }
 
-.m0{
+.m0 {
   margin: 0 !important;
 }
 
-.p0{
+.p0 {
   padding: 0 !important;
 }
 
@@ -85,4 +85,28 @@ code {
 .column {
   flex: 0 1 auto;
   max-width: 50%;
+}
+
+.MuiRadio-root {
+  color: #F86F03 !important;
+}
+
+.MuiRadio-root.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26) !important;
+}
+
+.MuiRadio-root+span {
+  color: #4a4848 !important;
+}
+
+.MuiCheckbox-root {
+  color: #F86F03 !important;
+}
+
+.MuiCheckbox-root+span {
+  color: #4a4848 !important;
+}
+
+.MuiCheckbox-root.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26) !important;
 }

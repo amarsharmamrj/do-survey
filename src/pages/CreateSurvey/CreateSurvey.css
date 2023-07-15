@@ -2,14 +2,17 @@
     padding: 0.5rem 1rem;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     border-radius: 0.5rem;
-    border-left:5px solid #525FE1;
+    border-left: 5px solid #525FE1;
+    /* background-color: #edeefd26; */
     margin: 0.5rem 0;
 }
+
 .survey-details {
     padding: 1rem 1rem;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     border-radius: 0.5rem;
     border-top: 5px solid #F86F03;
+    /* background-color: #fff4eb40; */
     margin: 0.5rem 0;
 }
 
@@ -46,11 +49,11 @@
     width: 90%;
 }
 
-.question-container{
+.question-container {
     justify-content: center;
 }
 
-.format-tools ul{
+.format-tools ul {
     display: flex;
 }
 
@@ -66,5 +69,5 @@
 @media screen and (max-width: 576px) {
     .option-label {
         width: 90%;
-    }    
+    }
 }

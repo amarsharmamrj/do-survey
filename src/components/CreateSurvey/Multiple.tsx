@@ -2,8 +2,11 @@ import { Collapse, Box, TextField, FormControl, Select, MenuItem, Radio, IconBut
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import QuestionType from "./QuestionType";
+import { useParams } from "react-router-dom";
 
 const Multiple = (props: any) => {
+    const { id: surveyId } = useParams();
+    const { autoFocus } = props
     const { checked, question, handleQuestionType, handleOptionChange, handleDeleteOption, handleAddOption, questions, setQuestions } = props
 
     const handleQuestionLabel = (e: any) => {
@@ -47,7 +50,7 @@ const Multiple = (props: any) => {
                                                 variant="standard"
                                                 className="option-label"
                                                 placeholder='Option'
-                                                autoFocus
+                                                autoFocus={autoFocus}
                                                 defaultValue={option.label}
                                                 // value={option.label}
                                                 onKeyUp={(e) => handleOptionChange(e, option.id, question.id)}
