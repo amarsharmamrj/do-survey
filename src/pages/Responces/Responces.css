@@ -1,0 +1,22 @@
+.preview .questioon-label {
+    font-weight: 400;
+    margin: 0.5rem 0 0.5rem 0;
+}
+
+.preview .questioon-label span{
+    font-weight: 500;
+    margin: 0.5rem 0 0.5rem 0;
+}
+
+.preview .questioon-answer {
+    font-weight: 400;
+    margin: 0;
+}
+
+.preview .questioon-answer span{
+    font-weight: 500;
+    margin: 0;
+}
+
+
+

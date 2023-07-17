@@ -1,0 +1,58 @@
+/* ********************* DATAGRID STYLING ***************************** */
+.data-grid-header{
+    color: white;
+    background-color: #01abaa;
+  }
+  
+  .MuiDataGrid-row:nth-child(even){
+    background-color: #edfcfc;
+  }
+  
+  .MuiDataGrid-row:hover{
+    background-color:#f8e8ef;
+  }
+  
+  .MuiDataGrid-sortIcon{
+    color: white !important;
+  }
+  
+  .MuiDataGrid-toolbarContainer button{
+    font-weight: 700;
+    color: #01abaa;
+    padding: 2px 10px;
+    border: 1px solid;
+    margin: 5px 10px 5px 0px;
+    transition: all 0.4s ease-in;
+  }
+  
+  .MuiDataGrid-toolbarContainer button:hover{
+    font-weight: 700;
+    color: white;
+    background-color: #01abaa;
+  }
+  
+  .MuiDataGrid-menuIconButton{
+    color: white !important;
+  } 
+
+  /* ********************* END OF DATAGRID STYLING ***************************** */
+  
+  
+  /* .......................................................................................
+                        MEDIA QUERY
+     .......................................................................................
+  */
+  
+  @media screen and (max-width: 576px) {
+  
+    .MuiDataGrid-toolbarContainer button{
+      font-weight: 700;
+      color: #01abaa;
+      padding: 2px 2px;
+      border: 1px solid;
+      margin: 5px 2px 5px 2px;
+      transition: all 0.4s ease-in;
+    }
+    
+  }
+  

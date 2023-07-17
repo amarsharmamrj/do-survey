@@ -12,8 +12,36 @@ code {
     monospace;
 }
 
+.thankyou-box {
+  display: flex;
+  height: 90vh;
+  text-align: center;
+  padding: 1rem 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.thankyou-box h1 {
+  font-size: 2.5rem;
+  font-weight: 500;
+}
+
+
+.thankyou-box h1 b {
+  font-weight: 700;
+}
+
+
+.MuiAppBar-root {
+  background-color: #01abaa !important;
+}
+
+.color-white {
+  color: white !important;
+}
+
 .color-one {
-  color: #525FE1 !important;
+  color: #01abaa !important;
 }
 
 .color-two {
@@ -29,7 +57,7 @@ code {
 }
 
 .bg-one {
-  background-color: #525FE1 !important;
+  background-color: #01abaa !important;
 }
 
 .bg-two {
@@ -54,6 +82,23 @@ code {
   margin-right: 1rem !important;
 }
 
+.mt-1 {
+  margin-top: 0.5rem !important
+}
+
+.mt-2 {
+  margin-top: 1rem !important
+}
+
+.mb-1 {
+  margin-bottom: 0.5rem !important
+}
+
+.mb-2 {
+  margin-bottom: 1rem !important
+}
+
+
 .mtb-1 {
   margin-top: 0.5rem !important;
   margin-bottom: 0.5rem !important;
@@ -75,9 +120,6 @@ code {
 }
 
 
-
-
-
 .wrapper {
   display: flex;
 }
@@ -95,6 +137,10 @@ code {
   color: rgba(0, 0, 0, 0.26) !important;
 }
 
+.preview .MuiRadio-root.Mui-disabled {
+  color: #F86F03 !important;
+}
+
 .MuiRadio-root+span {
   color: #4a4848 !important;
 }
@@ -109,4 +155,8 @@ code {
 
 .MuiCheckbox-root.Mui-disabled {
   color: rgba(0, 0, 0, 0.26) !important;
+}
+
+.preview .MuiCheckbox-root.Mui-disabled {
+  color: #F86F03 !important;
 }

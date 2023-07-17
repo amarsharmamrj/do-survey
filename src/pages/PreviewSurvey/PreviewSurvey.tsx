@@ -1,17 +1,15 @@
 import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button, Typography, Fab } from "@mui/material"
 import { useEffect, useState } from "react"
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
-import Question from "../../components/SubmitSurvey/Question"
-import "./ViewSurvey.css"
-import SendIcon from '@mui/icons-material/Send';
+import Question from "../../components/PreviewSurvey/Question"
+import "./PreviewSurvey.css"
+import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios'
 import dayjs from 'dayjs'
-import { enqueueSnackbar } from 'notistack'
-import { useParams, Link, useNavigate, Navigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
-const SubmitSurvey = () => {
+const PreviewSurvey = () => {
     const { id: surveyId } = useParams();
-    const navigate = useNavigate()
     console.log("survey id:", surveyId)
 
     const [openFormatToolsName, setOpenFormatToolsName] = useState(false)
@@ -29,40 +27,74 @@ const SubmitSurvey = () => {
     // data states
     const [surveyName, setSurveyName] = useState('')
     const [surveyDesc, setSurveyDesc] = useState('')
-    const [username, setUsername] = useState('')
     const [questions, setQuestions] = useState([{
         id: 1,
         questionType: 'textbox',
         required: false
     }])
 
-    const handleUsername = (e: any) => {
-        setUsername(e.target.value.trim())
+    const handleSurveyName = (e: any) => {
+        if (e.target.value.length > 0) setDisableToolsButtonName(false)
+        else setDisableToolsButtonName(true)
+
+        if (e.target.value.trim().length > 0) {
+            setSurveyName(e.target.value)
+        }
     }
 
-    const handleSubmit = () => {
+    const handleSurveyDesc = (e: any) => {
+        if (e.target.value.length > 0) setDisableToolsButtonDesc(false)
+        else setDisableToolsButtonDesc(true)
+
+        if (e.target.value.trim().length > 0) {
+            setSurveyDesc(e.target.value)
+        }
+    }
+
+    const handleOpenFormatToolsName = (e: any) => {
+        console.log("handleOpenFormatTools:", e.currentTarget)
+        setAnchorElName(e.currentTarget)
+    }
+
+    const handleCloseFormatToolsName = () => {
+        setAnchorElName(null);
+    };
+
+    const handleOpenFormatToolsDesc = (e: any) => {
+        console.log("handleOpenFormatTools:", e.currentTarget)
+        setAnchorElDesc(e.currentTarget)
+    }
+
+    const handleCloseFormatToolsDesc = () => {
+        setAnchorElDesc(null);
+    };
+
+    const handleFormatTools = (e: any) => {
+        console.log(e)
+        setOpenFormatToolsName(!openFormatToolsName)
+    }
+
+    const handleUpdate = () => {
         console.log("questions:", questions)
 
         const model = {
-            surveyId: surveyId,
+            id: surveyId,
             surveyName: surveyName,
+            surveyNameStyle: JSON.stringify(surveyNameStyle),
             surveyDesc: surveyDesc,
-            submitter: username,
-            answers: JSON.stringify(questions)
+            surveyDescStyle: JSON.stringify(surveyDescStyle),
+            start_date: dayjs(new Date).format("DD/MM/YYYY"),
+            end_date: "20/10/2028",
+            questions: JSON.stringify(questions)
         }
         console.log("model:", model)
 
-        axios.post(`http://localhost:4000/answer`, model)
+        axios.put(`http://localhost:4000/survey`, model)
             .then((res: any) => {
-                console.log("submit survey:", res)
-                enqueueSnackbar('Survey submitted!', { variant: 'success', autoHideDuration: 1000 })
-                setTimeout(() => {
-                    navigate(`/survey/thankyou/${surveyName}`)
-                }, 1000)
+                console.log("update survey:", res)
             })
             .catch((err: any) => {
-                console.log("submit survey err:", err)
-                enqueueSnackbar('Something went wrong!!', { variant: 'error', autoHideDuration: 1000 })
+                console.log("update survey err:", err)
             })
     }
 
@@ -91,7 +123,6 @@ const SubmitSurvey = () => {
                     console.log("error in getting survey data:", err)
                 })
         }
-
     }, [surveyId])
 
     return (
@@ -112,15 +143,6 @@ const SubmitSurvey = () => {
                     <Box className="survey-details">
                         <Typography sx={surveyNameStyle} className="survey-name">{surveyName}</Typography>
                         <Typography sx={surveyDescStyle} className="survey-desc">{surveyDesc}</Typography>
-                        <TextField
-                            variant="outlined"
-                            label="Enter Name"
-                            fullWidth={true}
-                            placeholder="Enter your name here"
-                            className="mtb-2"
-                            value={username}
-                            onChange={handleUsername}
-                        />
                     </Box>
                 </Grid>
             </Grid>
@@ -140,10 +162,11 @@ const SubmitSurvey = () => {
                     <Stack direction="row" justifyContent="flex-end" className="stack p0">
                         <Button
                             variant="contained"
-                            onClick={handleSubmit}
+                            component={Link}
+                            to={`/survey/edit/${surveyId}`}
                             className="mtb-2 bg-one"
                         >
-                            <SendIcon className="mr-2 bg-on" /> Submit
+                            <EditIcon className="mr-2" /> Edit Survey
                         </Button>
                     </Stack>
                 </Grid>
@@ -152,4 +175,4 @@ const SubmitSurvey = () => {
     )
 }
 
-export default SubmitSurvey
+export default PreviewSurvey

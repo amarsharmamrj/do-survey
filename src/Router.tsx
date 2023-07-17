@@ -5,7 +5,10 @@ import EditSurvey from "./pages/EditSurvey/EditSurvey"
 import Home from "./pages/Home/Home"
 import Login from "./pages/Login"
 import SubmitSurvey from "./pages/SubmitSurvey/SubmitSurvey"
-import ViewSurvey from "./pages/ViewSurvey/ViewSurvey"
+import ThankYou from "./pages/ThankYou/ThankYou"
+import ViewSubmissions from "./pages/ViewSubmissions/ViewSubmissions"
+import PreviewSurvey from "./pages/PreviewSurvey/PreviewSurvey"
+import Responces from "./pages/Responces/Responces"
 
 const Router = () => {
     return (
@@ -15,8 +18,11 @@ const Router = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/create-survey" element={<CreateSurvey />} />
                 <Route path="/survey/edit/:id" element={<EditSurvey />} />
-                <Route path="/survey/:id" element={<ViewSurvey />} />
+                <Route path="/survey/preview/:id" element={<PreviewSurvey />} />
                 <Route path="/survey/submit/:id" element={<SubmitSurvey />} />
+                <Route path="/survey/submissions/:id" element={<ViewSubmissions />} />
+                <Route path="/survey/submissions/responces/:id" element={<Responces />} />
+                <Route path="/survey/thankyou/:name" element={<ThankYou />} />
             </Routes>
         </Template>
     )

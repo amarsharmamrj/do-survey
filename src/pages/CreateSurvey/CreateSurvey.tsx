@@ -114,7 +114,7 @@ const CreateSurvey = () => {
             .catch((err: any) => {
                 setLoading(false)
                 console.log("create survey err:", err)
-                enqueueSnackbar('Something went wrong!!', { variant: 'error', autoHideDuration: 1000})
+                enqueueSnackbar('Something went wrong!!', { variant: 'error', autoHideDuration: 1000 })
             })
     }
 
@@ -239,8 +239,9 @@ const CreateSurvey = () => {
                             variant="contained"
                             disabled={questions.length === 0 || loading === true ? true : false}
                             onClick={handleSave}
+                            className="bg-one"
                         >
-                            {loading ? <CircularProgress size={27} /> : 'Save'}
+                            {loading ? <CircularProgress size={27} className="color-white" /> : 'Save'}
                         </Button>
                     </Stack>
                 </Grid>

@@ -31,7 +31,7 @@
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     border-radius: 0.4rem;
     padding: 1rem;
-    background-color: #e8f3ff;
+    background-color: #e5ffff66;
 }
 
 .survey-card:hover {

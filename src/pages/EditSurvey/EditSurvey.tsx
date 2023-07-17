@@ -5,6 +5,7 @@ import Question from "../../components/CreateSurvey/Question"
 import "../CreateSurvey/CreateSurvey.css"
 import FormatTools from "../../components/CreateSurvey/FormatToolsName";
 import FormatToolsName from "../../components/CreateSurvey/FormatToolsName";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FormatToolsDesc from "../../components/CreateSurvey/FormatToolsDesc";
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -242,7 +243,15 @@ const EditSurvey = () => {
                         <Button
                             variant="contained"
                             component={Link}
-                            to={`/survey/${surveyId}`}
+                            to={'/'}
+                            className="bg-one"
+                        >
+                            <ArrowBackIcon className="mr-1" /> Go back
+                        </Button>
+                        <Button
+                            variant="contained"
+                            component={Link}
+                            to={`/survey/preview/${surveyId}`}
                             target="_blank"
                             className="mlr-2 bg-two"
                         ><RemoveRedEyeIcon className="mr-1"
@@ -251,6 +260,7 @@ const EditSurvey = () => {
                         </Button>
                         <Button
                             variant="contained"
+                            className="bg-one"
                             disabled={loading}
                             onClick={handleUpdate}
                         >
@@ -258,7 +268,7 @@ const EditSurvey = () => {
                                 loading
                                     ? <CircularProgress
                                         size={27}
-                                        className="mlr-2"
+                                        className="mlr-2 color-white"
                                     />
                                     :
                                     'Update'

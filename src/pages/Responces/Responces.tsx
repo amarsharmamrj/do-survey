@@ -1,16 +1,20 @@
 import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button, Typography, Fab } from "@mui/material"
 import { useEffect, useState } from "react"
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
-import Question from "../../components/ViewSurvey/Question"
-import "../ViewSurvey/ViewSurvey.css"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Question from "../../components/Responces/Question"
+import "./Responces.css"
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios'
 import dayjs from 'dayjs'
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
-const ViewSurvey = () => {
-    const { id: surveyId } = useParams();
-    console.log("survey id:", surveyId)
+const Responces = () => {
+    const { id } = useParams();
+    const navigate = useNavigate()
+    const serverUrl = process.env.REACT_APP_API_URL
+    console.log("serverUrl:", serverUrl)
+    console.log("answer id:", id)
 
     const [openFormatToolsName, setOpenFormatToolsName] = useState(false)
     const [anchorElName, setAnchorElName] = useState(null)
@@ -27,7 +31,7 @@ const ViewSurvey = () => {
     // data states
     const [surveyName, setSurveyName] = useState('')
     const [surveyDesc, setSurveyDesc] = useState('')
-    const [questions, setQuestions] = useState([{
+    const [answers, setAnswers] = useState([{
         id: 1,
         questionType: 'textbox',
         required: false
@@ -75,17 +79,17 @@ const ViewSurvey = () => {
     }
 
     const handleUpdate = () => {
-        console.log("questions:", questions)
+        console.log("answers:", answers)
 
         const model = {
-            id: surveyId,
+            id: id,
             surveyName: surveyName,
             surveyNameStyle: JSON.stringify(surveyNameStyle),
             surveyDesc: surveyDesc,
             surveyDescStyle: JSON.stringify(surveyDescStyle),
             start_date: dayjs(new Date).format("DD/MM/YYYY"),
             end_date: "20/10/2028",
-            questions: JSON.stringify(questions)
+            answers: JSON.stringify(answers)
         }
         console.log("model:", model)
 
@@ -98,32 +102,26 @@ const ViewSurvey = () => {
             })
     }
 
-    const setServerData = (survey: any) => {
-        console.log("surveyName:", survey, survey.surveyName)
-        setSurveyName(survey.surveyName)
-        setSurveyDesc(survey.surveyDesc)
-        let tempSurveyNameStyle = survey.surveyNameStyle && JSON.parse(survey.surveyNameStyle)
-        if (tempSurveyNameStyle) setSurveyNameStyle(tempSurveyNameStyle['& input'])
+    const setServerData = (data: any) => {
+        setSurveyName(data.surveyName)
+        setSurveyDesc(data.surveyDesc)
 
-        let tempSurveyDescStyle = survey.surveyDescStyle && JSON.parse(survey.surveyDescStyle)
-        if (tempSurveyDescStyle) setSurveyDescStyle(tempSurveyDescStyle['& input'])
-
-        console.log("questions from server:", JSON.parse(survey.questions))
-        setQuestions(survey.questions && JSON.parse(survey.questions))
+        console.log("answers from server:", JSON.parse(data.answers))
+        setAnswers(data.answers && JSON.parse(data.answers))
     }
 
     useEffect(() => {
-        if (surveyId) {
-            axios.get(`http://localhost:4000/survey/${surveyId}`)
+        if (id) {
+            axios.get(`${serverUrl}/answer/${id}`)
                 .then((res) => {
-                    console.log("survey data:", res.data)
+                    console.log("answer data:", res.data)
                     if (res.data) setServerData(res.data[0])
                 })
                 .catch((err) => {
-                    console.log("error in getting survey data:", err)
+                    console.log("error in getting answer data:", err)
                 })
         }
-    }, [surveyId])
+    }, [id])
 
     return (
 
@@ -146,12 +144,12 @@ const ViewSurvey = () => {
                     </Box>
                 </Grid>
             </Grid>
-            <Grid container item md={12} className="question-container">
+            <Grid container item md={12} className="question-container preview">
                 {
-                    questions.length > 0 ? (
-                        questions.map((question: any) => {
+                    answers.length > 0 ? (
+                        answers.map((question: any) => {
                             return (
-                                <Question key={question.id} question={question} questions={questions} setQuestions={setQuestions} />
+                                <Question key={question.id} question={question} answers={answers} setAnswers={setAnswers} />
                             )
                         })
                     ) : ('')
@@ -162,11 +160,12 @@ const ViewSurvey = () => {
                     <Stack direction="row" justifyContent="flex-end" className="stack p0">
                         <Button
                             variant="contained"
-                            component={Link}
-                            to={`/survey/edit/${surveyId}`}
-                            className="mtb-2"
+                            // component={Link}
+                            // to={-1}
+                            onClick={() => navigate(-1)}
+                            className="mtb-2 bg-one"
                         >
-                            <EditIcon className="mr-2" /> Edit Survey
+                            <ArrowBackIcon className="mr-1" /> Go back
                         </Button>
                     </Stack>
                 </Grid>
@@ -175,4 +174,4 @@ const ViewSurvey = () => {
     )
 }
 
-export default ViewSurvey
+export default Responces

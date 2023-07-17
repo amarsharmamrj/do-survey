@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import "./Home.css"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import AddIcon from '@mui/icons-material/Add';
 
 const Home = () => {
     const [surveys, setSurveys] = useState([])
@@ -27,7 +28,7 @@ const Home = () => {
                         <Typography variant="h5" component="h6">All Surveys</Typography>
                     </Box>
                     <Box>
-                        <Button component={Link} to="/create-survey" variant="contained" className="bg-two">Create Survey</Button>
+                        <Button component={Link} to="/create-survey" variant="contained" className="bg-two"><AddIcon className="mr-1" />Create Survey</Button>
                     </Box>
                 </Stack>
             </Grid>

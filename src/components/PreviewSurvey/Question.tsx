@@ -2,10 +2,10 @@ import { Grid, Box, Switch, IconButton, Divider, Tooltip, Zoom, Slide } from "@m
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
-import Textbox from "../ViewSurvey/Textbox";
-import Multiple from "../ViewSurvey/Multiple";
+import Textbox from "./Textbox";
+import Multiple from "./Multiple";
 import Actions from "./Actions";
-import Checkboxes from "../ViewSurvey/Checkboxes";
+import Checkboxes from "./Checkboxes";
 
 const Question = (props: any) => {
     const { question, questions, setQuestions } = props

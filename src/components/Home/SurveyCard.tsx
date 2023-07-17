@@ -47,10 +47,10 @@ const SurveyCard = (props: any) => {
                 open={open}
                 onClose={handleMenuClose}
             >
-                <MenuItem component={Link} to={`survey/${survey._id}`} target='_blank'><RemoveRedEyeIcon className="mr-1 color-two" />Preview</MenuItem>
+                <MenuItem component={Link} to={`survey/preview/${survey._id}`} target='_blank'><RemoveRedEyeIcon className="mr-1 color-two" />Preview</MenuItem>
                 <MenuItem component={Link} to={`/survey/edit/${survey._id}`}><EditIcon className="mr-1 color-two" />Edit</MenuItem>
-                <MenuItem component={Link} to={`/survey/submit/${survey._id}`}><ShareIcon className="mr-1 color-two" /> Share</MenuItem>
-                <MenuItem><ChecklistIcon className="mr-1 color-two" /> Submissions</MenuItem>
+                <MenuItem component={Link} to={`/survey/submit/${survey._id}`}><ShareIcon className="mr-1 color-two" />Fill Survey</MenuItem>
+                <MenuItem component={Link} to={`/survey/submissions/${survey._id}`}><ChecklistIcon className="mr-1 color-two" /> Submissions</MenuItem>
             </Menu>
         </Box>
     )
