@@ -13,11 +13,15 @@ import { useParams } from "react-router-dom";
 import { enqueueSnackbar } from 'notistack'
 import { useNavigate, Link } from "react-router-dom";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import EditSurveySkel from "../../Skeletons/EditSurveySkel";
 
 const EditSurvey = () => {
     const navigate = useNavigate()
     const { id: surveyId } = useParams();
     console.log("survey id:", surveyId)
+
+    const [loading, setLoading] = useState(true)
+    const [loadingSave, setLoadingSave] = useState(false)
 
     const [openFormatToolsName, setOpenFormatToolsName] = useState(false)
     const [anchorElName, setAnchorElName] = useState(null)
@@ -30,8 +34,6 @@ const EditSurvey = () => {
     const [surveyDescStyle, setSurveyDescStyle] = useState({})
     const [disableToolsButtonDesc, setDisableToolsButtonDesc] = useState(true)
     const openDescTools = Boolean(anchorElDesc)
-
-    const [loading, setLoading] = useState(false)
 
     // data states
     const [surveyName, setSurveyName] = useState('')
@@ -84,7 +86,7 @@ const EditSurvey = () => {
     }
 
     const handleUpdate = () => {
-        setLoading(true)
+        setLoadingSave(true)
         console.log("questions:", questions)
 
         const model = {
@@ -108,7 +110,7 @@ const EditSurvey = () => {
                 }, 1000)
             })
             .catch((err: any) => {
-                setLoading(false)
+                setLoadingSave(false)
                 console.log("update survey err:", err)
                 enqueueSnackbar('Something went wrong!!', { variant: 'error', autoHideDuration: 1000 })
             })
@@ -130,9 +132,11 @@ const EditSurvey = () => {
                 .then((res) => {
                     console.log("survey data:", res.data)
                     if (res.data) setServerData(res.data[0])
+                    setLoading(false)
                 })
                 .catch((err) => {
                     console.log("error in getting survey data:", err)
+                    setLoading(false)
                 })
         }
     }, [surveyId])
@@ -150,91 +154,102 @@ const EditSurvey = () => {
                     </Box> */}
                 </Stack>
             </Grid>
-            <Grid item md={12} container className="question-container">
-                <Grid item xs={12} sm={12} md={10}>
-                    <Box className="survey-details">
-                        <Box sx={{ display: 'flex' }}>
-                            <TextField
-                                variant="outlined"
-                                className="mtb-1"
-                                value={surveyName}
-                                sx={surveyNameStyle}
-                                label="Survey Name"
-                                fullWidth={true}
-                                autoFocus
-                                placeholder='Enter survey name'
-                                onChange={handleSurveyName}
-                            />
-                            {
-                                !disableToolsButtonName && (
-                                    <Box sx={{ display: 'flex' }}>
-                                        <IconButton onClick={handleOpenFormatToolsName}>
-                                            <Tooltip title="formatting tools">
-                                                <FormatColorFillIcon className="color-one" />
-                                            </Tooltip>
-                                        </IconButton>
-                                    </Box>
-                                )
-                            }
-                        </Box>
+            {
+                !loading ? (
+                    <Grid item md={12} container className="question-container">
+                        <Grid item xs={12} sm={12} md={10}>
+                            <Box className="survey-details">
+                                <Box sx={{ display: 'flex' }}>
+                                    <TextField
+                                        variant="outlined"
+                                        className="mtb-1"
+                                        value={surveyName}
+                                        sx={surveyNameStyle}
+                                        label="Survey Name"
+                                        fullWidth={true}
+                                        autoFocus
+                                        placeholder='Enter survey name'
+                                        onChange={handleSurveyName}
+                                    />
+                                    {
+                                        !disableToolsButtonName && (
+                                            <Box sx={{ display: 'flex' }}>
+                                                <IconButton onClick={handleOpenFormatToolsName}>
+                                                    <Tooltip title="formatting tools">
+                                                        <FormatColorFillIcon className="color-one" />
+                                                    </Tooltip>
+                                                </IconButton>
+                                            </Box>
+                                        )
+                                    }
+                                </Box>
 
-                        <FormatToolsName
-                            anchorEl={anchorElName}
-                            setAnchorEl={setAnchorElName}
-                            surveyNameStyle={surveyNameStyle}
-                            setSurveyNameStyle={setSurveyNameStyle}
-                            open={openNameTools}
-                            handleOpenFormatTools={handleOpenFormatToolsName}
-                            handleCloseFomrmatTools={handleCloseFormatToolsName}
-                        />
-                        {/* ) : ("")
+                                <FormatToolsName
+                                    anchorEl={anchorElName}
+                                    setAnchorEl={setAnchorElName}
+                                    surveyNameStyle={surveyNameStyle}
+                                    setSurveyNameStyle={setSurveyNameStyle}
+                                    open={openNameTools}
+                                    handleOpenFormatTools={handleOpenFormatToolsName}
+                                    handleCloseFomrmatTools={handleCloseFormatToolsName}
+                                />
+                                {/* ) : ("")
                         } */}
 
-                        <Box sx={{ display: 'flex' }}>
-                            <TextField
-                                variant="outlined"
-                                className="mtb-1"
-                                label="Survey description"
-                                value={surveyDesc}
-                                sx={surveyDescStyle}
-                                fullWidth={true}
-                                onChange={handleSurveyDesc}
-                                autoFocus
-                                placeholder='Enter survey description'
-                            />
-                            {
-                                !disableToolsButtonDesc && (
-                                    <Box sx={{ display: 'flex' }}>
-                                        <IconButton onClick={handleOpenFormatToolsDesc}>
-                                            <Tooltip title="formatting tools">
-                                                <FormatColorFillIcon className="color-one" />
-                                            </Tooltip>
-                                        </IconButton>
-                                    </Box>
-                                )
-                            }
-                            <FormatToolsDesc
-                                anchorEl={anchorElDesc}
-                                setAnchorEl={setAnchorElDesc}
-                                surveyNameStyle={surveyDescStyle}
-                                setSurveyNameStyle={setSurveyDescStyle}
-                                open={openDescTools}
-                                handleOpenFormatTools={handleOpenFormatToolsDesc}
-                                handleCloseFomrmatTools={handleCloseFormatToolsDesc}
-                            />
-                        </Box>
-                    </Box>
-                </Grid>
-            </Grid>
+                                <Box sx={{ display: 'flex' }}>
+                                    <TextField
+                                        variant="outlined"
+                                        className="mtb-1"
+                                        label="Survey description"
+                                        value={surveyDesc}
+                                        sx={surveyDescStyle}
+                                        fullWidth={true}
+                                        onChange={handleSurveyDesc}
+                                        autoFocus
+                                        placeholder='Enter survey description'
+                                    />
+                                    {
+                                        !disableToolsButtonDesc && (
+                                            <Box sx={{ display: 'flex' }}>
+                                                <IconButton onClick={handleOpenFormatToolsDesc}>
+                                                    <Tooltip title="formatting tools">
+                                                        <FormatColorFillIcon className="color-one" />
+                                                    </Tooltip>
+                                                </IconButton>
+                                            </Box>
+                                        )
+                                    }
+                                    <FormatToolsDesc
+                                        anchorEl={anchorElDesc}
+                                        setAnchorEl={setAnchorElDesc}
+                                        surveyNameStyle={surveyDescStyle}
+                                        setSurveyNameStyle={setSurveyDescStyle}
+                                        open={openDescTools}
+                                        handleOpenFormatTools={handleOpenFormatToolsDesc}
+                                        handleCloseFomrmatTools={handleCloseFormatToolsDesc}
+                                    />
+                                </Box>
+                            </Box>
+                        </Grid>
+                    </Grid>
+                ) : ('')
+            }
             <Grid container item md={12} className="question-container edit-survey">
                 {
-                    questions.length > 0 ? (
-                        questions.map((question: any) => {
-                            return (
-                                <Question key={question.id} question={question} questions={questions} setQuestions={setQuestions} />
-                            )
-                        })
-                    ) : ('')
+                    !loading ? (
+                        questions.length > 0 ? (
+                            questions.map((question: any) => {
+                                return (
+                                    <Question key={question.id} question={question} questions={questions} setQuestions={setQuestions} />
+                                )
+                            })
+                        ) : ('')
+                    ) : (
+                        [1, 2, 3, 4].map((item) => (
+                            <EditSurveySkel key={item + 'card'} />
+                        )
+                        )
+                    )
                 }
             </Grid>
             <Grid container item md={12} className="question-container ptb2">
@@ -248,32 +263,40 @@ const EditSurvey = () => {
                         >
                             <ArrowBackIcon className="mr-1" /> Go back
                         </Button>
-                        <Button
-                            variant="contained"
-                            component={Link}
-                            to={`/survey/preview/${surveyId}`}
-                            target="_blank"
-                            className="mlr-2 bg-two"
-                        ><RemoveRedEyeIcon className="mr-1"
-                            />
-                            Preview
-                        </Button>
-                        <Button
-                            variant="contained"
-                            className="bg-one"
-                            disabled={loading}
-                            onClick={handleUpdate}
-                        >
-                            {
-                                loading
-                                    ? <CircularProgress
-                                        size={27}
-                                        className="mlr-2 color-white"
+                        {
+                            !loading ? (
+                                <Button
+                                    variant="contained"
+                                    component={Link}
+                                    to={`/survey/preview/${surveyId}`}
+                                    target="_blank"
+                                    className="mlr-2 bg-two"
+                                ><RemoveRedEyeIcon className="mr-1"
                                     />
-                                    :
-                                    'Update'
-                            }
-                        </Button>
+                                    Preview
+                                </Button>
+                            ) : ('')
+                        }
+                        {
+                            !loading ? (
+                                <Button
+                                    variant="contained"
+                                    className="bg-one"
+                                    disabled={loading}
+                                    onClick={handleUpdate}
+                                >
+                                    {
+                                        loadingSave
+                                            ? <CircularProgress
+                                                size={27}
+                                                className="mlr-2 color-white"
+                                            />
+                                            :
+                                            'Update'
+                                    }
+                                </Button>
+                            ) : ('')
+                        }
                     </Stack>
                 </Grid>
             </Grid>

@@ -8,11 +8,13 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import { enqueueSnackbar } from 'notistack'
 import { useParams, Link, useNavigate, Navigate } from "react-router-dom";
+import QuestionSkel from "../../Skeletons/QuestionSkel";
 
 const SubmitSurvey = () => {
     const { id: surveyId } = useParams();
     const navigate = useNavigate()
-    console.log("survey id:", surveyId)
+    const [loading, setLoading] = useState(true)
+
 
     const [openFormatToolsName, setOpenFormatToolsName] = useState(false)
     const [anchorElName, setAnchorElName] = useState(null)
@@ -86,9 +88,11 @@ const SubmitSurvey = () => {
                 .then((res) => {
                     console.log("survey data:", res.data)
                     if (res.data) setServerData(res.data[0])
+                    setLoading(false)
                 })
                 .catch((err) => {
                     console.log("error in getting survey data:", err)
+                    setLoading(false)
                 })
         }
 
@@ -107,47 +111,62 @@ const SubmitSurvey = () => {
                     </Box> */}
                 </Stack>
             </Grid>
-            <Grid item md={12} container className="question-container">
-                <Grid item xs={12} sm={12} md={10}>
-                    <Box className="survey-details">
-                        <Typography sx={surveyNameStyle} className="survey-name">{surveyName}</Typography>
-                        <Typography sx={surveyDescStyle} className="survey-desc">{surveyDesc}</Typography>
-                        <TextField
-                            variant="outlined"
-                            label="Enter Name"
-                            fullWidth={true}
-                            placeholder="Enter your name here"
-                            className="mtb-2"
-                            value={username}
-                            onChange={handleUsername}
-                        />
-                    </Box>
-                </Grid>
-            </Grid>
+            {
+                !loading ? (
+                    <Grid item md={12} container className="question-container">
+                        <Grid item xs={12} sm={12} md={10}>
+                            <Box className="survey-details">
+                                <Typography sx={surveyNameStyle} className="survey-name">{surveyName}</Typography>
+                                <Typography sx={surveyDescStyle} className="survey-desc">{surveyDesc}</Typography>
+                                <TextField
+                                    variant="outlined"
+                                    label="Enter Name"
+                                    fullWidth={true}
+                                    placeholder="Enter your name here"
+                                    className="mtb-2"
+                                    value={username}
+                                    onChange={handleUsername}
+                                />
+                            </Box>
+                        </Grid>
+                    </Grid>
+                ) : ('')
+            }
             <Grid container item md={12} className="question-container">
                 {
-                    questions.length > 0 ? (
-                        questions.map((question: any) => {
-                            return (
-                                <Question key={question.id} question={question} questions={questions} setQuestions={setQuestions} />
-                            )
-                        })
-                    ) : ('')
+                    !loading ? (
+                        questions.length > 0 ? (
+                            questions.map((question: any) => {
+                                return (
+                                    <Question key={question.id} question={question} questions={questions} setQuestions={setQuestions} />
+                                )
+                            })
+                        ) : ('')
+                    ) : (
+                        [1, 2, 3, 4].map((item) => (
+                            <QuestionSkel key={item + 'card'} />
+                        )
+                        )
+                    )
                 }
             </Grid>
-            <Grid container item md={12} className="question-container ptb2">
-                <Grid item xs={12} sm={12} md={10} sx={{ margin: '0', padding: '0' }}>
-                    <Stack direction="row" justifyContent="flex-end" className="stack p0">
-                        <Button
-                            variant="contained"
-                            onClick={handleSubmit}
-                            className="mtb-2 bg-one"
-                        >
-                            <SendIcon className="mr-2 bg-on" /> Submit
-                        </Button>
-                    </Stack>
-                </Grid>
-            </Grid>
+            {
+                !loading ? (
+                    <Grid container item md={12} className="question-container ptb2">
+                        <Grid item xs={12} sm={12} md={10} sx={{ margin: '0', padding: '0' }}>
+                            <Stack direction="row" justifyContent="flex-end" className="stack p0">
+                                <Button
+                                    variant="contained"
+                                    onClick={handleSubmit}
+                                    className="mtb-2 bg-one"
+                                >
+                                    <SendIcon className="mr-2 bg-on" /> Submit
+                                </Button>
+                            </Stack>
+                        </Grid>
+                    </Grid>
+                ) : ('')
+            }
         </Grid>
     )
 }

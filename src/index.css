@@ -40,6 +40,11 @@ code {
   color: white !important;
 }
 
+.bg-white {
+  background-color: white !important;
+}
+
+
 .color-one {
   color: #01abaa !important;
 }

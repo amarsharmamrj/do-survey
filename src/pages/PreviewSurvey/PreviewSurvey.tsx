@@ -5,13 +5,13 @@ import Question from "../../components/PreviewSurvey/Question"
 import "./PreviewSurvey.css"
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios'
-import dayjs from 'dayjs'
 import { useParams, Link } from "react-router-dom";
+import QuestionSkel from "../../Skeletons/QuestionSkel";
 
 const PreviewSurvey = () => {
     const { id: surveyId } = useParams();
-    console.log("survey id:", surveyId)
 
+    const [loading, setLoading] = useState(true)
     const [openFormatToolsName, setOpenFormatToolsName] = useState(false)
     const [anchorElName, setAnchorElName] = useState(null)
     const [surveyNameStyle, setSurveyNameStyle] = useState({})
@@ -33,73 +33,7 @@ const PreviewSurvey = () => {
         required: false
     }])
 
-    const handleSurveyName = (e: any) => {
-        if (e.target.value.length > 0) setDisableToolsButtonName(false)
-        else setDisableToolsButtonName(true)
-
-        if (e.target.value.trim().length > 0) {
-            setSurveyName(e.target.value)
-        }
-    }
-
-    const handleSurveyDesc = (e: any) => {
-        if (e.target.value.length > 0) setDisableToolsButtonDesc(false)
-        else setDisableToolsButtonDesc(true)
-
-        if (e.target.value.trim().length > 0) {
-            setSurveyDesc(e.target.value)
-        }
-    }
-
-    const handleOpenFormatToolsName = (e: any) => {
-        console.log("handleOpenFormatTools:", e.currentTarget)
-        setAnchorElName(e.currentTarget)
-    }
-
-    const handleCloseFormatToolsName = () => {
-        setAnchorElName(null);
-    };
-
-    const handleOpenFormatToolsDesc = (e: any) => {
-        console.log("handleOpenFormatTools:", e.currentTarget)
-        setAnchorElDesc(e.currentTarget)
-    }
-
-    const handleCloseFormatToolsDesc = () => {
-        setAnchorElDesc(null);
-    };
-
-    const handleFormatTools = (e: any) => {
-        console.log(e)
-        setOpenFormatToolsName(!openFormatToolsName)
-    }
-
-    const handleUpdate = () => {
-        console.log("questions:", questions)
-
-        const model = {
-            id: surveyId,
-            surveyName: surveyName,
-            surveyNameStyle: JSON.stringify(surveyNameStyle),
-            surveyDesc: surveyDesc,
-            surveyDescStyle: JSON.stringify(surveyDescStyle),
-            start_date: dayjs(new Date).format("DD/MM/YYYY"),
-            end_date: "20/10/2028",
-            questions: JSON.stringify(questions)
-        }
-        console.log("model:", model)
-
-        axios.put(`http://localhost:4000/survey`, model)
-            .then((res: any) => {
-                console.log("update survey:", res)
-            })
-            .catch((err: any) => {
-                console.log("update survey err:", err)
-            })
-    }
-
     const setServerData = (survey: any) => {
-        console.log("surveyName:", survey, survey.surveyName)
         setSurveyName(survey.surveyName)
         setSurveyDesc(survey.surveyDesc)
         let tempSurveyNameStyle = survey.surveyNameStyle && JSON.parse(survey.surveyNameStyle)
@@ -108,7 +42,6 @@ const PreviewSurvey = () => {
         let tempSurveyDescStyle = survey.surveyDescStyle && JSON.parse(survey.surveyDescStyle)
         if (tempSurveyDescStyle) setSurveyDescStyle(tempSurveyDescStyle['& input'])
 
-        console.log("questions from server:", JSON.parse(survey.questions))
         setQuestions(survey.questions && JSON.parse(survey.questions))
     }
 
@@ -118,9 +51,11 @@ const PreviewSurvey = () => {
                 .then((res) => {
                     console.log("survey data:", res.data)
                     if (res.data) setServerData(res.data[0])
+                    setLoading(false)
                 })
                 .catch((err) => {
                     console.log("error in getting survey data:", err)
+                    setLoading(false)
                 })
         }
     }, [surveyId])
@@ -139,37 +74,52 @@ const PreviewSurvey = () => {
                 </Stack>
             </Grid>
             <Grid item md={12} container className="question-container">
-                <Grid item xs={12} sm={12} md={10}>
-                    <Box className="survey-details">
-                        <Typography sx={surveyNameStyle} className="survey-name">{surveyName}</Typography>
-                        <Typography sx={surveyDescStyle} className="survey-desc">{surveyDesc}</Typography>
-                    </Box>
-                </Grid>
-            </Grid>
-            <Grid container item md={12} className="question-container">
                 {
-                    questions.length > 0 ? (
-                        questions.map((question: any) => {
-                            return (
-                                <Question key={question.id} question={question} questions={questions} setQuestions={setQuestions} />
-                            )
-                        })
+                    !loading ? (
+                        <Grid item xs={12} sm={12} md={10}>
+                            <Box className="survey-details">
+                                <Typography sx={surveyNameStyle} className="survey-name">{surveyName}</Typography>
+                                <Typography sx={surveyDescStyle} className="survey-desc">{surveyDesc}</Typography>
+                            </Box>
+                        </Grid>
                     ) : ('')
                 }
             </Grid>
+            <Grid container item md={12} className="question-container">
+                {
+                    !loading ? (
+                        questions.length > 0 ? (
+                            questions.map((question: any) => {
+                                return (
+                                    <Question key={question.id} question={question} questions={questions} setQuestions={setQuestions} />
+                                )
+                            })
+                        ) : ('')
+                    ) : (
+                        [1, 2, 3, 4].map((item) => (
+                            <QuestionSkel key={item + 'card'} />
+                        )
+                        )
+                    )
+                }
+            </Grid>
             <Grid container item md={12} className="question-container ptb2">
-                <Grid item xs={12} sm={12} md={10} sx={{ margin: '0', padding: '0' }}>
-                    <Stack direction="row" justifyContent="flex-end" className="stack p0">
-                        <Button
-                            variant="contained"
-                            component={Link}
-                            to={`/survey/edit/${surveyId}`}
-                            className="mtb-2 bg-one"
-                        >
-                            <EditIcon className="mr-2" /> Edit Survey
-                        </Button>
-                    </Stack>
-                </Grid>
+                {
+                    !loading ? (
+                        <Grid item xs={12} sm={12} md={10} sx={{ margin: '0', padding: '0' }}>
+                            <Stack direction="row" justifyContent="flex-end" className="stack p0">
+                                <Button
+                                    variant="contained"
+                                    component={Link}
+                                    to={`/survey/edit/${surveyId}`}
+                                    className="mtb-2 bg-one"
+                                >
+                                    <EditIcon className="mr-2" /> Edit Survey
+                                </Button>
+                            </Stack>
+                        </Grid>
+                    ) : ('')
+                }
             </Grid>
         </Grid>
     )
