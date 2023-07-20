@@ -1,0 +1,17 @@
+.signup-container {
+    padding: 4rem 8rem;
+}
+
+.flexEnd{
+    display: flex;
+    justify-content: flex-end;
+}
+.center {
+    justify-content: center;
+}
+
+@media screen and (max-width: 576px) {
+    .signup-container {
+        padding: 1rem 0.5rem;
+    }
+}
