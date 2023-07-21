@@ -7,8 +7,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios'
 import { useParams, Link } from "react-router-dom";
 import QuestionSkel from "../../Skeletons/QuestionSkel";
+import checkLogin from "../../utils/checkLogin";
+import { useNavigate } from "react-router-dom";
 
 const PreviewSurvey = () => {
+    const navigate = useNavigate()
+    document.title = 'Preview'
     const { id: surveyId } = useParams();
 
     const [loading, setLoading] = useState(true)
@@ -59,6 +63,13 @@ const PreviewSurvey = () => {
                 })
         }
     }, [surveyId])
+
+    useEffect(()=> {
+        if(!checkLogin()){
+         navigate('/login')
+        }
+     }, [])
+ 
 
     return (
 

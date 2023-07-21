@@ -12,6 +12,7 @@ const Signup = () => {
     const [surveys, setSurveys] = useState([])
     const [disable, setDisable] = useState(false)
     const navigate = useNavigate()
+    document.title = 'Sign Up'
 
     const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState({

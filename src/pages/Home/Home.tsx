@@ -6,15 +6,23 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import AddIcon from '@mui/icons-material/Add';
 import SurveyCardSkel from "../../Skeletons/SurveyCardSkel"
+import checkLogin from "../../utils/checkLogin"
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+    const navigate = useNavigate()
+    document.title = 'Home'
+    const loginUser = useSelector((state: any) => state.loginLogout)
+    console.log("create loginUser:", loginUser)
+
     const [surveys, setSurveys] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        axios.get('http://localhost:4000/survey')
+        axios.get(`http://localhost:4000/survey/data/${loginUser.user.userId}`)
             .then((res) => {
-                console.log("get surveys:", res.data)
+                console.log("create get surveys:", res.data)
                 setSurveys(res.data)
                 setLoading(false)
             })
@@ -22,7 +30,14 @@ const Home = () => {
                 console.log("get surveys error:", err)
                 setLoading(false)
             })
+    }, [loginUser])
+
+    useEffect(() => {
+        if (!checkLogin()) {
+            navigate('/login')
+        }
     }, [])
+
 
     return (
         <Grid container className="homepage-container">

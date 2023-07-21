@@ -1,5 +1,5 @@
 import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button, CircularProgress } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import Question from "../../components/CreateSurvey/Question"
 import "./CreateSurvey.css"
@@ -10,9 +10,15 @@ import dayjs from 'dayjs'
 import { enqueueSnackbar } from 'notistack'
 import { useNavigate } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import checkLogin from "../../utils/checkLogin";
+import { useSelector } from "react-redux";
 
 const CreateSurvey = () => {
     const navigate = useNavigate()
+    document.title = 'Create Survey'
+    const loginUser = useSelector((state:any) => state.loginLogout)
+    console.log("create loginUser:", loginUser)
+
     const [openFormatToolsName, setOpenFormatToolsName] = useState(false)
     const [anchorElName, setAnchorElName] = useState(null)
     const [surveyNameStyle, setSurveyNameStyle] = useState({})
@@ -93,6 +99,7 @@ const CreateSurvey = () => {
         console.log("questions:", questions)
 
         const model = {
+            userId: loginUser.userId,
             surveyName: surveyName,
             surveyNameStyle: JSON.stringify(surveyNameStyle),
             surveyDesc: surveyDesc,
@@ -117,6 +124,12 @@ const CreateSurvey = () => {
                 enqueueSnackbar('Something went wrong!!', { variant: 'error', autoHideDuration: 1000 })
             })
     }
+
+    useEffect(() => {
+        if (!checkLogin()) {
+            navigate('/login')
+        }
+    }, [])
 
     return (
 

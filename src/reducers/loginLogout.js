@@ -1,4 +1,8 @@
-const initialState = null
+import { getLS } from "../utils/localStorageEncryp"
+
+const userData = getLS()
+
+const initialState = userData != null ? { user: userData } : null
 
 const loginLogout = (state = initialState, action) => {
     switch (action.type) {
@@ -15,7 +19,7 @@ const loginLogout = (state = initialState, action) => {
             }
             return state
         }
-        
+
         default: return state
     }
 }

@@ -8,10 +8,15 @@ import DataGrid from '../../partials/DataGrid'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewSubmissionsSkel from "../../Skeletons/ViewSubmissionsSkel";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import checkLogin from "../../utils/checkLogin";
+import { useNavigate } from "react-router-dom";
 
 const ViewSubmissions = () => {
     const { id: surveyId } = useParams();
     const [rows, setRows] = useState([])
+    const navigate = useNavigate()
+    document.title = 'Submissions'
     // let rows = []
     const [loading, setLoading] = useState(true)
 
@@ -151,6 +156,12 @@ const ViewSubmissions = () => {
                 })
         }
     }, [surveyId])
+
+    useEffect(() => {
+        if (!checkLogin()) {
+            navigate('/login')
+        }
+    }, [])
 
     return (
 

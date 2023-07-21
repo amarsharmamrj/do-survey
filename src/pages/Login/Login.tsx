@@ -9,6 +9,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { enqueueSnackbar } from 'notistack'
 import { useSelector, useDispatch } from "react-redux"
 import { login, logout } from "../../actions"
+import { getLS, setLS } from "../../utils/localStorageEncryp"
 
 const Login = () => {
     const myState = useSelector((state: any) => state.loginLogout)
@@ -137,6 +138,9 @@ const Login = () => {
                     console.log("get surveys:", res.data)
                     // setDisable(false)
                     dispatch(login(res.data))
+                    setLS(res.data)
+                    let userData = getLS();
+                    console.log("@userdata:", userData)
                     enqueueSnackbar('Login successfullly!', { variant: 'success', autoHideDuration: 2000 })
                     setTimeout(() => {
                         navigate('/')

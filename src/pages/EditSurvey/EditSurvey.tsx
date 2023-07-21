@@ -14,6 +14,7 @@ import { enqueueSnackbar } from 'notistack'
 import { useNavigate, Link } from "react-router-dom";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditSurveySkel from "../../Skeletons/EditSurveySkel";
+import checkLogin from "../../utils/checkLogin";
 
 const EditSurvey = () => {
     const navigate = useNavigate()
@@ -141,6 +142,12 @@ const EditSurvey = () => {
         }
     }, [surveyId])
 
+    useEffect(()=> {
+        if(!checkLogin()){
+         navigate('/login')
+        }
+     }, [])
+ 
     return (
 
         <Grid container className="homepage-container">

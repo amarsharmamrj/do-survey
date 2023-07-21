@@ -8,10 +8,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { useParams, Link, useNavigate } from "react-router-dom";
+import checkLogin from "../../utils/checkLogin";
 
 const Responces = () => {
     const { id } = useParams();
     const navigate = useNavigate()
+    document.title = 'Responces'
     const serverUrl = process.env.REACT_APP_API_URL
     console.log("serverUrl:", serverUrl)
     console.log("answer id:", id)
@@ -122,6 +124,13 @@ const Responces = () => {
                 })
         }
     }, [id])
+
+    useEffect(()=> {
+        if(!checkLogin()){
+         navigate('/login')
+        }
+     }, [])
+ 
 
     return (
 
