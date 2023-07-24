@@ -1,0 +1,11 @@
+.poll-preview {
+    display: block !important;
+    margin: 0 8rem !important;
+}
+
+@media screen and (max-width: 576px) {
+    .poll-preview {
+        display: block;
+        margin: 0 0.5rem !important;
+    }
+}
