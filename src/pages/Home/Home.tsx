@@ -9,6 +9,8 @@ import SurveyCardSkel from "../../Skeletons/SurveyCardSkel"
 import checkLogin from "../../utils/checkLogin"
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import PollIcon from '@mui/icons-material/Poll';
+import HorizontalSplitIcon from '@mui/icons-material/HorizontalSplit';
 
 const Home = () => {
     const navigate = useNavigate()
@@ -17,20 +19,6 @@ const Home = () => {
     console.log("create loginUser:", loginUser)
 
     const [surveys, setSurveys] = useState([])
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        axios.get(`http://localhost:4000/survey/data/${loginUser.user.userId}`)
-            .then((res) => {
-                console.log("create get surveys:", res.data)
-                setSurveys(res.data)
-                setLoading(false)
-            })
-            .catch((err) => {
-                console.log("get surveys error:", err)
-                setLoading(false)
-            })
-    }, [loginUser])
 
     useEffect(() => {
         if (!checkLogin()) {
@@ -41,37 +29,25 @@ const Home = () => {
 
     return (
         <Grid container className="homepage-container">
-            <Grid item md={12}>
-                <Stack direction="row" justifyContent="space-between" className="stack">
-                    <Box>
-                        <Typography variant="h5" component="h6">All Surveys</Typography>
-                    </Box>
-                    <Box>
-                        <Button component={Link} to="/create-survey" variant="contained" className="bg-two"><AddIcon className="mr-1" />Create Survey</Button>
-                    </Box>
-                </Stack>
-            </Grid>
             <Grid container item md={12}>
-                {
-                    !loading ? (
-                        surveys ? (
-                            surveys.map((survey) => {
-                                return (
-                                    <Grid item md={3} xs={12} sm={6} className='survey-card-item'>
-                                        <SurveyCard survey={survey} />
-                                    </Grid>
-                                )
-                            })
-                        ) : ("No survey")
-                    ) : (
-                        [1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-                            <Grid item md={3} xs={12} sm={6} className='survey-card-item'>
-                                <SurveyCardSkel key={item + 'card'} />
-                            </Grid>
-                        )
-                        )
-                    )
-                }
+                <Grid item md={3} xs={12} sm={6} className='survey-card-item'></Grid>
+                <Grid item md={3} xs={12} sm={6} className='survey-card-item'>
+                    <Box component={Link} to='/poll' className="category-card-box">
+                        <div className="category-card">
+                            <PollIcon className="icon color-one" />
+                            <h2>My Polls</h2>
+                        </div>
+                    </Box>
+                </Grid>
+                <Grid item md={3} xs={12} sm={6} className='survey-card-item'>
+                    <Box component={Link} to='/survey' className="category-card-box">
+                        <div className="category-card">
+                            <HorizontalSplitIcon className="icon color-one" />
+                            <h2>My Surveys</h2>
+                        </div>
+                    </Box>
+                </Grid>
+                <Grid item md={3} xs={12} sm={6} className='survey-card-item'></Grid>
             </Grid>
         </Grid>
     )

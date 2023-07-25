@@ -58,12 +58,12 @@ const PollSubmit = () => {
         }
         console.log("model:", model)
 
-        axios.post(`http://localhost:4000/pollAnswer`, model)
+        axios.post(`${process.env.REACT_APP_API_URL}/pollAnswer`, model)
             .then((res: any) => {
                 console.log("submit survey:", res)
                 enqueueSnackbar('poll submitted!', { variant: 'success', autoHideDuration: 1000 })
                 setTimeout(() => {
-                    navigate(`/poll/thankyou/${surveyName}`)
+                    navigate(`/poll/thankyou/${pollName}`)
                 }, 1000)
             })
             .catch((err: any) => {
@@ -78,7 +78,7 @@ const PollSubmit = () => {
 
     useEffect(() => {
         if (pollId) {
-            axios.get(`http://localhost:4000/poll/${pollId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/poll/${pollId}`)
                 .then((res) => {
                     console.log("survey data:", res.data)
                     if (res.data) setServerData(res.data[0])

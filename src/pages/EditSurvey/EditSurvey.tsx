@@ -102,7 +102,7 @@ const EditSurvey = () => {
         }
         console.log("model:", model)
 
-        axios.put(`http://localhost:4000/survey`, model)
+        axios.put(`${process.env.REACT_APP_API_URL}/survey`, model)
             .then((res: any) => {
                 console.log("update survey:", res)
                 enqueueSnackbar('Updated successfullly!', { variant: 'success', autoHideDuration: 1000 })
@@ -129,7 +129,7 @@ const EditSurvey = () => {
 
     useEffect(() => {
         if (surveyId) {
-            axios.get(`http://localhost:4000/survey/${surveyId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/survey/${surveyId}`)
                 .then((res) => {
                     console.log("survey data:", res.data)
                     if (res.data) setServerData(res.data[0])
@@ -264,8 +264,7 @@ const EditSurvey = () => {
                     <Stack direction="row" justifyContent="flex-end" className="stack p0">
                         <Button
                             variant="contained"
-                            component={Link}
-                            to={'/'}
+                            onClick={() => navigate(-1)}
                             className="bg-one"
                         >
                             <ArrowBackIcon className="mr-1" /> Go back

@@ -1,76 +1,25 @@
-.homepage-container {
-    padding: 2rem 4rem;
+.category-card-box {
+    text-decoration: none;
 }
 
-.stack {
-    padding: 0 1rem;
-}
-
-.open{
-    color: green;
-}
-
-.closed{
-    color: orange;
-}
-
-.survey-title{
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.survey-card-item {
-    padding: 0.8rem 1rem;
-}
-
-
-.survey-card {
-    box-shadow: 0 2px 6px 4px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+.category-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-    border-radius: 0.4rem;
+    text-align: center;
     padding: 1rem;
-    background-color: #e5ffff66;
+    border-radius: 1rem;
 }
 
-.survey-card:hover {
+.category-card:hover {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
-.survey-modified-date {
-    font-size: 1rem !important;
-    margin: 0 !important;
+.category-card .icon {
+    font-size: 5rem;
 }
 
-.survey-status-label {
-    font-size: 0.9rem !important;
-    margin: 0 !important;
-    margin-top: 2rem !important;
-}
-
-.survey-status {
-    font-size: 1rem !important;
-    margin: 0 !important;
-    margin-bottom: 2rem !important;
-}
-
-
-
-@media screen and (max-width: 576px) {
-    .homepage-container {
-        padding: 1rem 0.5rem;
-    }
-
-    .stack {
-        display: flex !important;
-        flex-direction: column-reverse !important;
-        justify-content: space-between !important;
-        flex-basis: 2;
-        padding: 0 0.5rem;
-    }
-
-    .survey-card-item {
-        padding: 0.8rem 0.5rem;
-    }
+.category-card h2 {
+    font-size: 1.5rem;  
+    margin: 0;
+    color: #f86f03;
 }

@@ -56,7 +56,7 @@ const PollPreview = () => {
 
     useEffect(() => {
         if (pollId) {
-            axios.get(`http://localhost:4000/poll/${pollId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/poll/${pollId}`)
                 .then((res) => {
                     console.log("poll data:", res.data)
                     if (res.data) setServerData(res.data[0])

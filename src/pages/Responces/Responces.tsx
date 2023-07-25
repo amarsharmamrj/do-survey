@@ -95,7 +95,7 @@ const Responces = () => {
         }
         console.log("model:", model)
 
-        axios.put(`http://localhost:4000/survey`, model)
+        axios.put(`${process.env.REACT_APP_API_URL}/survey`, model)
             .then((res: any) => {
                 console.log("update survey:", res)
             })

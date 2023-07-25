@@ -1,7 +1,9 @@
-import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button, Typography, Fab } from "@mui/material"
+import { Grid, Box, Stack, TextField, IconButton, Tooltip, Button, Typography, Fab, Divider } from "@mui/material"
 import { useEffect, useState } from "react"
 import "../PreviewSurvey/PreviewSurvey.css"
+import PropTypes from 'prop-types';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 import axios from 'axios'
 import { useParams, Link } from "react-router-dom";
 import DataGrid from '../../partials/DataGrid'
@@ -11,7 +13,30 @@ import ViewSubmissionsSkel from "../../Skeletons/ViewSubmissionsSkel";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import checkLogin from "../../utils/checkLogin";
 import { useNavigate } from "react-router-dom";
+import { PollSubmissionChart } from "../../components/pollSubmissions/PollSubmissionChart";
 
+function LinearProgressWithLabel(props) {
+    return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ width: '100%', mr: 1 }}>
+                <LinearProgress variant="determinate" {...props} />
+            </Box>
+            <Box sx={{ minWidth: 35 }}>
+                <Typography variant="body2" color="text.secondary">{`${Math.round(
+                    props.value,
+                )}%`}</Typography>
+            </Box>
+        </Box>
+    );
+}
+
+LinearProgressWithLabel.propTypes = {
+    /**
+     * The value of the progress indicator for the determinate and buffer variants.
+     * Value between 0 and 100.
+     */
+    value: PropTypes.number.isRequired,
+};
 const PollSubmissions = () => {
     const { id: pollId } = useParams();
     const [rows, setRows] = useState([])
@@ -45,6 +70,25 @@ const PollSubmissions = () => {
 
     const handleDelete = (e, value) => {
         console.log("handle delete")
+        console.log("handle delete:", value.value, e)
+        axios.delete(`${process.env.REACT_APP_API_URL}/pollAnswer/${value.value}`)
+            .then((res) => {
+                console.log("deleted data:", res.data)
+                const filterData = questions.filter((item) => item._id !== value.value)
+                setQuestions(filterData)
+                setDataForRows(filterData)
+                collectDataForGraph(filterData)
+                // if (res.data) {
+                //     setServerData(res.data[0])
+                //     setQuestions(res.data)
+                //     setDataForRows(res.data)
+                // }
+                // setLoading(false)
+            })
+            .catch((err) => {
+                console.log("deleted:", err)
+                // setLoading(false)
+            })
     }
 
     const columns = [
@@ -157,14 +201,15 @@ const PollSubmissions = () => {
         })
         let finalData = []
         for (let key in optionsData) {
-            finalData.push({ 'key':  [key], 'value': optionsData[key] })
+            finalData.push({ 'key': key, 'value': optionsData[key] })
         }
+        console.log("#@@# finalData:", finalData)
         setGraphData(finalData)
     }
 
     useEffect(() => {
         if (pollId) {
-            axios.get(`http://localhost:4000/pollAnswer/allAnswers/${pollId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/pollAnswer/allAnswers/${pollId}`)
                 .then((res) => {
                     console.log("all polls data:", res.data)
                     if (res.data) {
@@ -182,7 +227,7 @@ const PollSubmissions = () => {
                 })
 
 
-            axios.get(`http://localhost:4000/poll/${pollId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/poll/${pollId}`)
                 .then((res) => {
                     console.log("poll data:", res.data)
                     if (res.data) {
@@ -224,13 +269,12 @@ const PollSubmissions = () => {
                     <Grid item md={12} container className="question-container mb-2">
                         <Grid item xs={12} sm={12} md={12}>
                             <Box className="survey-details">
-                                <Typography sx={surveyNameStyle} className="survey-name">{pollName}</Typography>
-                                {/* <Typography sx={surveyDescStyle} className="survey-desc">{surveyDesc}</Typography> */}
+                                <Typography sx={surveyNameStyle} className="survey-name">{pollName} <span style={{ fontSize: '1rem' }}><i>(Total Submission - {questions.length})</i></span> </Typography>
                                 {
                                     graphData.length > 0 ? (
-                                        graphData.map((item)=>{
-                                            return <p>{item.key} <i>{item.value}</i></p>
-                                        })
+                                        <Box>
+                                            <PollSubmissionChart graphData={graphData} />
+                                        </Box>
                                     ) : ''
                                 }
                             </Box>
@@ -245,7 +289,7 @@ const PollSubmissions = () => {
                             {
                                 questions.length > 0 ? (
                                     <DataGrid rows={rows} columns={columns} autoHeight={true} getRowClassName="data-grid-header" height="800px" />
-                                ) : ('')
+                                ) : ('No submissions yet !')
 
                             }
                         </Grid>

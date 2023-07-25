@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material"
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import '../../pages/Home/Home.css'
+import '../../pages/Survey/Survey.css'
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 import { useState } from "react"
@@ -33,13 +33,13 @@ const SurveyCard = (props: any) => {
 
             <Button
                 component={Link}
-                to={`/survey/edit/${survey._id}`}
+                to={`/survey/submissions/${survey._id}`}
                 variant='outlined'
                 fullWidth={true}
                 sx={{ color: 'white' }}
                 className="bg-one"
             >
-                Open Survey
+                All Submissions
             </Button>
 
             <Menu
@@ -47,7 +47,7 @@ const SurveyCard = (props: any) => {
                 open={open}
                 onClose={handleMenuClose}
             >
-                <MenuItem component={Link} to={`survey/preview/${survey._id}`} target='_blank'><RemoveRedEyeIcon className="mr-1 color-two" />Preview</MenuItem>
+                <MenuItem component={Link} to={`/survey/preview/${survey._id}`} target='_blank'><RemoveRedEyeIcon className="mr-1 color-two" />Preview</MenuItem>
                 <MenuItem component={Link} to={`/survey/edit/${survey._id}`}><EditIcon className="mr-1 color-two" />Edit</MenuItem>
                 <MenuItem component={Link} to={`/survey/submit/${survey._id}`}><ShareIcon className="mr-1 color-two" />Fill Survey</MenuItem>
                 <MenuItem component={Link} to={`/survey/submissions/${survey._id}`}><ChecklistIcon className="mr-1 color-two" /> Submissions</MenuItem>

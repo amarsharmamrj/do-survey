@@ -35,6 +35,7 @@ const Topbar = () => {
   };
 
   const handleCloseNavMenu = () => {
+    console.log("clicked")
     setAnchorElNav(null);
   };
 
@@ -101,11 +102,14 @@ const Topbar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {/* {pages.map((page) => ( */}
+              <MenuItem key='poll' component={Link} to='/poll' onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Polls</Typography>
+              </MenuItem>
+              <MenuItem key='survey' component={Link} to='/survey' onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Surveys</Typography>
+              </MenuItem>
+              {/* ))} */}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -128,15 +132,20 @@ const Topbar = () => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+            {/* {pages.map((page) => ( */}
+            <Button
+              key='poll' component={Link} to='/poll'
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Polls
+            </Button>
+            <Button
+              key='survey' component={Link} to='/survey'
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Surveys
+            </Button>
+            {/* ))} */}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

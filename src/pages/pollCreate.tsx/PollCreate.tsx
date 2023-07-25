@@ -51,7 +51,7 @@ const PollCreate = () => {
         }
         console.log("model:", model)
 
-        axios.post('http://localhost:4000/poll/create', model)
+        axios.post(`${process.env.REACT_APP_API_URL}/poll/create`, model)
             .then((res: any) => {
                 console.log("save poll:", res)
                 enqueueSnackbar('Saved successfullly!', { variant: 'success', autoHideDuration: 1000 })

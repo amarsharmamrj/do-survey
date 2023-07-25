@@ -100,7 +100,7 @@ const PollEdit = () => {
         }
         console.log("model:", model)
 
-        axios.put(`http://localhost:4000/poll`, model)
+        axios.put(`${process.env.REACT_APP_API_URL}/poll`, model)
             .then((res: any) => {
                 console.log("update poll:", res)
                 enqueueSnackbar('Updated successfullly!', { variant: 'success', autoHideDuration: 1000 })
@@ -121,7 +121,7 @@ const PollEdit = () => {
 
     useEffect(() => {
         if (pollId) {
-            axios.get(`http://localhost:4000/poll/${pollId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/poll/${pollId}`)
                 .then((res) => {
                     console.log("poll data:", res.data)
                     if (res.data) setServerData(res.data[0])

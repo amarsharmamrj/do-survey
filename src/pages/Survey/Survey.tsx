@@ -1,7 +1,7 @@
 import { Grid, Typography, Button, Box, Stack } from "@mui/material"
 import SurveyCard from "../../components/Home/SurveyCard"
 import { Link } from 'react-router-dom'
-import "./Poll.css"
+import "./Survey.css"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import AddIcon from '@mui/icons-material/Add';
@@ -9,26 +9,25 @@ import SurveyCardSkel from "../../Skeletons/SurveyCardSkel"
 import checkLogin from "../../utils/checkLogin"
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import PollCard from "../../components/poll/PollCard"
 
-const Poll = () => {
+const Survey = () => {
     const navigate = useNavigate()
-    document.title = 'Poll'
+    document.title = 'Survey'
     const loginUser = useSelector((state: any) => state.loginLogout)
     console.log("create loginUser:", loginUser)
 
-    const [polls, setPolls] = useState([])
+    const [surveys, setSurveys] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/poll/data/${loginUser.user.userId}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/survey/data/${loginUser.user.userId}`)
             .then((res) => {
-                console.log("get polls:", res.data)
-                setPolls(res.data)
+                console.log("create get surveys:", res.data)
+                setSurveys(res.data)
                 setLoading(false)
             })
             .catch((err) => {
-                console.log("get polls error:", err)
+                console.log("get surveys error:", err)
                 setLoading(false)
             })
     }, [loginUser])
@@ -45,21 +44,21 @@ const Poll = () => {
             <Grid item md={12}>
                 <Stack direction="row" justifyContent="space-between" className="stack">
                     <Box>
-                        <Typography variant="h5" component="h6">All Polls {polls.length >= 0 ? `(${polls.length})` : ''}</Typography>
+                        <Typography variant="h5" component="h6">All Surveys {surveys.length >= 0 ? `(${surveys.length})` : ''}</Typography>
                     </Box>
                     <Box>
-                        <Button component={Link} to="/create-poll" variant="contained" className="bg-two"><AddIcon className="mr-1" />Create Poll</Button>
+                        <Button component={Link} to="/create-survey" variant="contained" className="bg-two"><AddIcon className="mr-1" />Create Survey</Button>
                     </Box>
                 </Stack>
             </Grid>
             <Grid container item md={12}>
                 {
                     !loading ? (
-                        polls ? (
-                            polls.map((survey) => {
+                        surveys ? (
+                            surveys.map((survey) => {
                                 return (
                                     <Grid item md={3} xs={12} sm={6} className='survey-card-item'>
-                                        <PollCard survey={survey} />
+                                        <SurveyCard survey={survey} />
                                     </Grid>
                                 )
                             })
@@ -78,4 +77,4 @@ const Poll = () => {
     )
 }
 
-export default Poll
+export default Survey

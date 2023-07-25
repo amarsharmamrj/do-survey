@@ -15,12 +15,14 @@ import PollEdit from "./pages/pollEdit/PollEdit"
 import PollSubmit from "./pages/pollSubmit/PollSubmit"
 import PollSubmissions from "./pages/pollSubmissions/PollSubmission"
 import PollResponces from "./pages/pollResponces/PollResponces"
+import Survey from "./pages/Survey/Survey"
 
 const Router = () => {
     return (
         <Template>
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/survey" element={<Survey />} />
                 <Route path="/create-survey" element={<CreateSurvey />} />
                 <Route path="/survey/edit/:id" element={<EditSurvey />} />
                 <Route path="/survey/preview/:id" element={<PreviewSurvey />} />

@@ -99,7 +99,7 @@ const CreateSurvey = () => {
         console.log("questions:", questions)
 
         const model = {
-            userId: loginUser.userId,
+            userId: loginUser.user.userId,
             surveyName: surveyName,
             surveyNameStyle: JSON.stringify(surveyNameStyle),
             surveyDesc: surveyDesc,
@@ -110,7 +110,7 @@ const CreateSurvey = () => {
         }
         console.log("model:", model)
 
-        axios.post('http://localhost:4000/survey/create', model)
+        axios.post(`${process.env.REACT_APP_API_URL}/survey/create`, model)
             .then((res: any) => {
                 console.log("save survey:", res)
                 enqueueSnackbar('Saved successfullly!', { variant: 'success', autoHideDuration: 1000 })
@@ -224,6 +224,7 @@ const CreateSurvey = () => {
                                         variant="contained"
                                         size="small"
                                         onClick={handleAddQuestion}
+                                        className="bg-one"
                                     >
                                         <AddCircleIcon className="mr-1" />
                                         Add question

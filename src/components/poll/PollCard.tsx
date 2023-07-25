@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material"
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import '../../pages/Home/Home.css'
+import '../../pages/Survey/Survey.css'
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 import { useState } from "react"
@@ -33,13 +33,13 @@ const PollCard = (props: any) => {
 
             <Button
                 component={Link}
-                to={`/survey/edit/${survey._id}`}
+                to={`/poll/submissions/${survey._id}`}
                 variant='outlined'
                 fullWidth={true}
                 sx={{ color: 'white' }}
                 className="bg-one"
             >
-                Open Poll
+                All Submissions
             </Button>
 
             <Menu

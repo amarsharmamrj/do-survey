@@ -42,7 +42,24 @@ const ViewSubmissions = () => {
     }])
 
     const handleDelete = (e, value) => {
-        console.log("handle delete")
+        console.log("handle delete:", value.value, e)
+        axios.delete(`${process.env.REACT_APP_API_URL}/answer/${value.value}`)
+            .then((res) => {
+                console.log("deleted data:", res.data)
+                const filterData = questions.filter((item) => item._id !== value.value)
+                setQuestions(filterData)
+                setDataForRows(filterData)
+                // if (res.data) {
+                //     setServerData(res.data[0])
+                //     setQuestions(res.data)
+                //     setDataForRows(res.data)
+                // }
+                // setLoading(false)
+            })
+            .catch((err) => {
+                console.log("deleted:", err)
+                // setLoading(false)
+            })
     }
 
     const columns = [
@@ -100,7 +117,7 @@ const ViewSubmissions = () => {
                 return (
                     <Tooltip title="View">
                         <IconButton
-                            aria-label="delete"
+                            aria-label="view"
                             variant="contained"
                             // color="secondary"
                             component={Link}
@@ -140,7 +157,7 @@ const ViewSubmissions = () => {
 
     useEffect(() => {
         if (surveyId) {
-            axios.get(`http://localhost:4000/answer/allAnswers/${surveyId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/answer/allAnswers/${surveyId}`)
                 .then((res) => {
                     console.log("survey data:", res.data)
                     if (res.data) {
@@ -213,8 +230,7 @@ const ViewSubmissions = () => {
                     <Stack direction="row" justifyContent="flex-end" className="stack p0">
                         <Button
                             variant="contained"
-                            component={Link}
-                            to={`/`}
+                            onClick={() => navigate(-1)}
                             className="mtb-2 bg-one"
                         >
                             <ArrowBackIcon className="mr-1" /> Go back

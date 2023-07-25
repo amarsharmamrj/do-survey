@@ -54,7 +54,7 @@ const SubmitSurvey = () => {
         }
         console.log("model:", model)
 
-        axios.post(`http://localhost:4000/answer`, model)
+        axios.post(`${process.env.REACT_APP_API_URL}/answer`, model)
             .then((res: any) => {
                 console.log("submit survey:", res)
                 enqueueSnackbar('Survey submitted!', { variant: 'success', autoHideDuration: 1000 })
@@ -84,7 +84,7 @@ const SubmitSurvey = () => {
 
     useEffect(() => {
         if (surveyId) {
-            axios.get(`http://localhost:4000/survey/${surveyId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/survey/${surveyId}`)
                 .then((res) => {
                     console.log("survey data:", res.data)
                     if (res.data) setServerData(res.data[0])
