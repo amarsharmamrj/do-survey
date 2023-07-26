@@ -103,6 +103,9 @@ const Topbar = () => {
               }}
             >
               {/* {pages.map((page) => ( */}
+              <MenuItem key='poll' component={Link} to='/' onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Home</Typography>
+              </MenuItem>
               <MenuItem key='poll' component={Link} to='/poll' onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">Polls</Typography>
               </MenuItem>
@@ -116,8 +119,8 @@ const Topbar = () => {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
+            component={Link}
+            to='/'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
