@@ -139,7 +139,7 @@ const Login = () => {
                     // setDisable(false)
                     dispatch(login(res.data))
                     setLS(res.data)
-                    let userData = getLS();
+                    let userData = getLS(); 
                     console.log("@userdata:", userData)
                     enqueueSnackbar('Login successfullly!', { variant: 'success', autoHideDuration: 2000 })
                     setTimeout(() => {
@@ -149,7 +149,7 @@ const Login = () => {
                 .catch((err) => {
                     console.log("get surveys error:", err)
                     setDisable(false)
-                    if (err.response.status === 404) {
+                    if (err?.response?.status === 404) {
                         enqueueSnackbar('Either email or password is wrong!', { variant: 'warning', autoHideDuration: 2000 })
                     } else {
                         enqueueSnackbar('Something went wrong!', { variant: 'info', autoHideDuration: 1000 })
