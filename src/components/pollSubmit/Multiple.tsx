@@ -8,8 +8,8 @@ const Multiple = (props: any) => {
 
         const newQuestions = questions.map((question: any) => {
             if (question.id === questionId) {
+                setPollName(question.label)
                 question.options.map((option: any) => {
-                    setPollName(option.label)
                     if (option.id === optionId) option.isSelected = e.target.checked
                     else option.isSelected = !e.target.checked
                 })

@@ -115,7 +115,7 @@ const CreateSurvey = () => {
                 console.log("save survey:", res)
                 enqueueSnackbar('Saved successfullly!', { variant: 'success', autoHideDuration: 1000 })
                 setTimeout(() => {
-                    navigate("/")
+                    navigate("/create-survey")
                 }, 1000)
             })
             .catch((err: any) => {

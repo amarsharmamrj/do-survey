@@ -21,16 +21,18 @@ const Poll = () => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/poll/data/${loginUser.user.userId}`)
-            .then((res) => {
-                console.log("get polls:", res.data)
-                setPolls(res.data)
-                setLoading(false)
-            })
-            .catch((err) => {
-                console.log("get polls error:", err)
-                setLoading(false)
-            })
+        if (checkLogin()) {
+            axios.get(`${process.env.REACT_APP_API_URL}/poll/data/${loginUser.user.userId}`)
+                .then((res) => {
+                    console.log("get polls:", res.data)
+                    setPolls(res.data)
+                    setLoading(false)
+                })
+                .catch((err) => {
+                    console.log("get polls error:", err)
+                    setLoading(false)
+                })
+        }
     }, [loginUser])
 
     useEffect(() => {

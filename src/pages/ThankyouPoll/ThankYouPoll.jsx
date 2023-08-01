@@ -37,8 +37,8 @@ LinearProgressWithLabel.propTypes = {
      */
     value: PropTypes.number.isRequired,
 };
-const PollSubmissions = () => {
-    const { id: pollId } = useParams();
+const ThankYouPoll = () => {
+    const { pollId } = useParams();
     const [rows, setRows] = useState([])
     const navigate = useNavigate()
     document.title = 'Submissions'
@@ -67,115 +67,6 @@ const PollSubmissions = () => {
         questionType: 'textbox',
         required: false
     }])
-
-    const handleDelete = (e, value) => {
-        console.log("handle delete")
-        console.log("handle delete:", value.value, e)
-        axios.delete(`${process.env.REACT_APP_API_URL}/pollAnswer/${value.value}`)
-            .then((res) => {
-                console.log("deleted data:", res.data)
-                const filterData = questions.filter((item) => item._id !== value.value)
-                setQuestions(filterData)
-                setDataForRows(filterData)
-                collectDataForGraph(filterData)
-                // if (res.data) {
-                //     setServerData(res.data[0])
-                //     setQuestions(res.data)
-                //     setDataForRows(res.data)
-                // }
-                // setLoading(false)
-            })
-            .catch((err) => {
-                console.log("deleted:", err)
-                // setLoading(false)
-            })
-    }
-
-    const columns = [
-        {
-            field: 'pollName',
-            headerName: 'Name',
-            flex: 1,
-            headerClassName: 'data-grid-header'
-        },
-        {
-            field: 'submittedDate',
-            headerName: 'Date',
-            flex: 1,
-            headerClassName: 'data-grid-header'
-        },
-        {
-            field: 'delete',
-            headerName: 'Delete',
-            sortable: false,
-            flex: 1,
-            type: "actions",
-            headerClassName: 'data-grid-header',
-            renderCell: (cellValues) => {
-                return (
-                    <Tooltip title="Delete">
-                        <IconButton
-                            aria-label="delete"
-                            variant="contained"
-                            // color="secondary"
-                            className="color-two"
-                            onClick={(event) => {
-                                handleDelete(event, cellValues);
-                            }}
-                        >
-                            <DeleteIcon />
-                        </IconButton>
-                    </Tooltip>
-                );
-            }
-        },
-        {
-            field: 'open',
-            headerName: 'Open',
-            sortable: false,
-            flex: 1,
-            type: "actions",
-            headerClassName: 'data-grid-header',
-            renderCell: (cellValues) => {
-                return (
-                    <Tooltip title="Delete">
-                        <IconButton
-                            aria-label="View"
-                            variant="contained"
-                            // color="secondary"
-                            component={Link}
-                            to={`/poll/submissions/responces/${cellValues.value}`}
-                            className="color-one"
-                        // onClick={(event) => {
-                        //     handleDelete(event, cellValues);
-                        // }}
-                        >
-                            <OpenInNewIcon />
-                        </IconButton>
-                    </Tooltip>
-                );
-            }
-        },
-    ];
-
-    const setDataForRows = (data) => {
-        let dataRows = data.map((item) => {
-            return {
-                _id: item._id,
-                pollName: item.pollName,
-                submittedDate: new Date(),
-                delete: item._id,
-                open: item._id,
-            }
-        })
-        setRows(dataRows)
-    }
-
-    const setServerData = (data) => {
-        console.log("dataName:", data, data.pollName)
-        setPollName(data.pollName)
-        // setSurveyDesc(survey.surveyDesc)
-    }
 
     const collectDataForGraph = (data) => {
         let optionsData = {}
@@ -208,8 +99,6 @@ const PollSubmissions = () => {
                     if (res.data) {
                         // setServerData(res.data[0])
                         setQuestions(res.data)
-                        setDataForRows(res.data)
-
                         collectDataForGraph(res.data)
                     }
                     setLoading(false)
@@ -237,12 +126,6 @@ const PollSubmissions = () => {
 
         }
     }, [pollId])
-
-    useEffect(() => {
-        if (!checkLogin()) {
-            navigate('/login')
-        }
-    }, [])
 
     return (
 
@@ -276,40 +159,24 @@ const PollSubmissions = () => {
                 ) : ('')
             }
             {
-                !loading ? (
-                    <Grid container item md={12} className="question-container">
+                checkLogin() ? (
+                    <Grid container item md={12} className="question-container ptb2">
                         <Grid item xs={12} sm={12} md={12} sx={{ margin: '0', padding: '0' }}>
-                            {
-                                questions.length > 0 ? (
-                                    <DataGrid rows={rows} columns={columns} autoHeight={true} getRowClassName="data-grid-header" height="800px" />
-                                ) : ('No submissions yet !')
-
-                            }
+                            <Stack direction="row" justifyContent="flex-end" className="stack p0">
+                                <Button
+                                    variant="contained"
+                                    onClick={() => navigate(-1)}
+                                    className="mtb-2 bg-one"
+                                >
+                                    <ArrowBackIcon className="mr-1" /> Go back
+                                </Button>
+                            </Stack>
                         </Grid>
                     </Grid>
-                ) : (
-                    <Grid container item md={12} className="question-container">
-                        <Grid item xs={12} sm={12} md={12} sx={{ margin: '0', padding: '0' }}>
-                            <ViewSubmissionsSkel />
-                        </Grid>
-                    </Grid>
-                )
+                ) : ('')
             }
-            <Grid container item md={12} className="question-container ptb2">
-                <Grid item xs={12} sm={12} md={12} sx={{ margin: '0', padding: '0' }}>
-                    <Stack direction="row" justifyContent="flex-end" className="stack p0">
-                        <Button
-                            variant="contained"
-                            onClick={() => navigate(-1)}
-                            className="mtb-2 bg-one"
-                        >
-                            <ArrowBackIcon className="mr-1" /> Go back
-                        </Button>
-                    </Stack>
-                </Grid>
-            </Grid>
         </Grid >
     )
 }
 
-export default PollSubmissions
+export default ThankYouPoll

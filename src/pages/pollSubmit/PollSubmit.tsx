@@ -53,7 +53,7 @@ const PollSubmit = () => {
         const model = {
             pollId: pollId,
             pollName: pollName,
-            submitter: loginUser.user.name,
+            submitter: 'user',
             answers: JSON.stringify(questions)
         }
         console.log("model:", model)
@@ -63,7 +63,7 @@ const PollSubmit = () => {
                 console.log("submit survey:", res)
                 enqueueSnackbar('poll submitted!', { variant: 'success', autoHideDuration: 1000 })
                 setTimeout(() => {
-                    navigate(`/poll/thankyou/${pollName}`)
+                    navigate(`/poll/thankyou/${pollId}`)
                 }, 1000)
             })
             .catch((err: any) => {

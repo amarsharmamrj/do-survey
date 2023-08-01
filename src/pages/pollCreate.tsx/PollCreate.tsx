@@ -56,7 +56,7 @@ const PollCreate = () => {
                 console.log("save poll:", res)
                 enqueueSnackbar('Saved successfullly!', { variant: 'success', autoHideDuration: 1000 })
                 setTimeout(() => {
-                    navigate("/")
+                    navigate("/poll")
                 }, 1000)
             })
             .catch((err: any) => {

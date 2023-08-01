@@ -16,6 +16,7 @@ import PollSubmit from "./pages/pollSubmit/PollSubmit"
 import PollSubmissions from "./pages/pollSubmissions/PollSubmission"
 import PollResponces from "./pages/pollResponces/PollResponces"
 import Survey from "./pages/Survey/Survey"
+import ThankYouPoll from "./pages/ThankyouPoll/ThankYouPoll"
 
 const Router = () => {
     return (
@@ -38,7 +39,7 @@ const Router = () => {
                 <Route path="/poll/submit/:id" element={<PollSubmit />} />
                 <Route path="/poll/submissions/:id" element={<PollSubmissions />} />
                 <Route path="/poll/submissions/responces/:id" element={<PollResponces />} />
-                <Route path="/poll/thankyou/:name" element={<ThankYou />} />
+                <Route path="/poll/thankyou/:pollId" element={<ThankYouPoll />} />
 
             </Routes>
         </Template>

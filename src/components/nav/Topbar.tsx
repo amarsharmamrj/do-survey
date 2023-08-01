@@ -17,6 +17,7 @@ import { setLS } from '../../utils/localStorageEncryp';
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../../actions';
 import { useDispatch } from 'react-redux';
+import checkLogin from '../../utils/checkLogin';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -174,9 +175,13 @@ const Topbar = () => {
               onClose={handleCloseUserMenu}
             >
 
-              <MenuItem key='logout' onClick={handleLogout}>
-                <Typography textAlign="center">Logout</Typography>
-              </MenuItem>
+              {
+                checkLogin() ? (
+                  <MenuItem key='logout' onClick={handleLogout}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
+                ) : ('')
+              }
 
             </Menu>
           </Box>

@@ -20,6 +20,7 @@ const Survey = () => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        if (checkLogin()) {
         axios.get(`${process.env.REACT_APP_API_URL}/survey/data/${loginUser.user.userId}`)
             .then((res) => {
                 console.log("create get surveys:", res.data)
@@ -30,6 +31,7 @@ const Survey = () => {
                 console.log("get surveys error:", err)
                 setLoading(false)
             })
+        }
     }, [loginUser])
 
     useEffect(() => {
