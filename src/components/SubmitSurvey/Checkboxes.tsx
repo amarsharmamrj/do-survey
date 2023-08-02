@@ -25,7 +25,7 @@ const Checkboxes = (props: any) => {
             {/* // <Collapse in={checked} collapsedSize={60}> */}
             <Box className="question-section">
                 <Box>
-                    <h4 className="questioon-label">{question.label}</h4>
+                    <h4 className="questioon-label">{question.label} {question.required ? (<span style={{color: 'red'}}>*</span>) : ''}</h4>
                 </Box>
             </Box>
             <Box className="options-section">

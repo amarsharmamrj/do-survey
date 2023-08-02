@@ -165,3 +165,7 @@ code {
 .preview .MuiCheckbox-root.Mui-disabled {
   color: #F86F03 !important;
 }
+
+.MuiInputLabel-asterisk {
+  color: red;
+}

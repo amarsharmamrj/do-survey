@@ -208,6 +208,10 @@ const Login = () => {
                     <FormHelperText sx={{ color: '#d32f2f', paddingLeft: '1rem' }}>{data.errors.password ?? data.errors.password}</FormHelperText>
                 </Grid>
 
+                <Grid item xs={12} sm={12} md={8}>
+                    <p style={{margin: '0'}}>Don't have account? Sign up <Link to="/signup">here</Link></p>
+                </Grid>
+
                 <Grid item xs={12} sm={10} md={8} className="mtb-1 flexEnd">
                     <Button
                         variant="contained"

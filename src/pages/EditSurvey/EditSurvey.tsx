@@ -107,7 +107,7 @@ const EditSurvey = () => {
                 console.log("update survey:", res)
                 enqueueSnackbar('Updated successfullly!', { variant: 'success', autoHideDuration: 1000 })
                 setTimeout(() => {
-                    navigate("/")
+                    navigate("/survey")
                 }, 1000)
             })
             .catch((err: any) => {

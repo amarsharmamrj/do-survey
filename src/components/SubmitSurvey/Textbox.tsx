@@ -19,7 +19,7 @@ const Textbox = (props: any) => {
 
     return (
         <Box>
-            <h4 className="questioon-label">{question.label}</h4>
+            <h4 className="questioon-label">{question.label} {question.required ? (<span style={{color: 'red'}}>*</span>) : ''}</h4>
             <TextField
                 id={question.id}
                 variant="outlined"

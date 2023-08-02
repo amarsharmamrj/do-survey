@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import { logout } from '../../actions';
 import { useDispatch } from 'react-redux';
 import checkLogin from '../../utils/checkLogin';
+import PollIcon from '@mui/icons-material/Poll';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -54,7 +55,7 @@ const Topbar = () => {
     <AppBar position="static">
       <Container maxWidth="xl" className='topbar'>
         <Toolbar disableGutters sx={{ height: '50px !important', color: 'white' }} variant="dense">
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <PollIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap

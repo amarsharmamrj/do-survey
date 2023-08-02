@@ -22,7 +22,7 @@ const Multiple = (props: any) => {
     return (
         <>
             <Box>
-                <h4 className="questioon-label">{question.label}</h4>
+                <h4 className="questioon-label">{question.label} {question.required ? (<span style={{color: 'red'}}>*</span>) : ''}</h4>
             </Box>
             <Box className="options-section">
                 <Box className="option-row">

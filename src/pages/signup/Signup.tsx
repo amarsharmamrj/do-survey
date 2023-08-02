@@ -256,6 +256,10 @@ const Signup = () => {
                         error={data.errors.confirmPassword ?? data.errors.confirmPassword === '' ? true : false}
                     />
                 </Grid>
+                <Grid item xs={12} sm={10} md={8}>
+                    <p style={{margin: '0'}}>Already have account? Login <Link to="/login"> here</Link></p>
+                </Grid>
+
                 <Grid item xs={12} sm={10} md={8} className="mtb-1 flexEnd">
                     <Button
                         variant="contained"

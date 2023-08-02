@@ -53,19 +53,55 @@ const SubmitSurvey = () => {
             answers: JSON.stringify(questions)
         }
         console.log("model:", model)
+        console.log("@@ username:", username)
 
-        axios.post(`${process.env.REACT_APP_API_URL}/answer`, model)
-            .then((res: any) => {
-                console.log("submit survey:", res)
-                enqueueSnackbar('Survey submitted!', { variant: 'success', autoHideDuration: 1000 })
-                setTimeout(() => {
-                    navigate(`/survey/thankyou/${surveyName}`)
-                }, 1000)
-            })
-            .catch((err: any) => {
-                console.log("submit survey err:", err)
-                enqueueSnackbar('Something went wrong!!', { variant: 'error', autoHideDuration: 1000 })
-            })
+        let flag = true
+
+        if (username.trim().length === 0) {
+            flag = false
+        }
+
+        questions.forEach((question: any) => {
+            if ((question.questionType === 'multiple' || question.questionType === 'checkbox') && question.required) {
+                question.options.forEach((option: any) => {
+                    if (option.hasOwnProperty('isSelected')) {
+                        if (option.isSelected === false) {
+                            flag = false
+                        }
+                    } else {
+                        flag = false
+                    }
+                })
+            }
+
+            if (question.questionType === 'textbox' && question.required) {
+                if (question.hasOwnProperty('answer')) {
+                    if (question.answer.trim().length === 0) {
+                        flag = false
+                    }
+                } else {
+                    flag = false
+                }
+            }
+        })
+
+        if (flag) {
+            axios.post(`${process.env.REACT_APP_API_URL}/answer`, model)
+                .then((res: any) => {
+                    console.log("submit survey:", res)
+                    enqueueSnackbar('Survey submitted!', { variant: 'success', autoHideDuration: 1000 })
+                    setTimeout(() => {
+                        navigate(`/survey/thankyou/${surveyName}`)
+                    }, 1000)
+                })
+                .catch((err: any) => {
+                    console.log("submit survey err:", err)
+                    enqueueSnackbar('Something went wrong!!', { variant: 'error', autoHideDuration: 1000 })
+                })
+        } else {
+            enqueueSnackbar('Kindly fill (*) marked fields!', { variant: 'error', autoHideDuration: 1500 })
+        }
+
     }
 
     const setServerData = (survey: any) => {
@@ -125,6 +161,7 @@ const SubmitSurvey = () => {
                                     placeholder="Enter your name here"
                                     className="mtb-2"
                                     value={username}
+                                    required={true}
                                     onChange={handleUsername}
                                 />
                             </Box>
