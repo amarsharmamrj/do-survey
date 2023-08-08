@@ -265,7 +265,7 @@ const EditSurvey = () => {
                         <Button
                             variant="contained"
                             onClick={() => navigate(-1)}
-                            className="bg-one"
+                            className="bg-one mtb-1 mlr-1"
                         >
                             <ArrowBackIcon className="mr-1" /> Go back
                         </Button>
@@ -276,7 +276,7 @@ const EditSurvey = () => {
                                     component={Link}
                                     to={`/survey/preview/${surveyId}`}
                                     target="_blank"
-                                    className="mlr-2 bg-two"
+                                    className="mtb-1 bg-two mlr-1"
                                 ><RemoveRedEyeIcon className="mr-1"
                                     />
                                     Preview
@@ -287,7 +287,7 @@ const EditSurvey = () => {
                             !loading ? (
                                 <Button
                                     variant="contained"
-                                    className="bg-one"
+                                    className="bg-one mtb-1 mlr-1"
                                     disabled={loading}
                                     onClick={handleUpdate}
                                 >

@@ -72,7 +72,7 @@ const Topbar = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Do Survey
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -117,7 +117,7 @@ const Topbar = () => {
               {/* ))} */}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <PollIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -134,7 +134,7 @@ const Topbar = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Do Survey
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {/* {pages.map((page) => ( */}

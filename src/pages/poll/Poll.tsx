@@ -50,7 +50,13 @@ const Poll = () => {
                         <Typography variant="h5" component="h6">All Polls {polls.length >= 0 ? `(${polls.length})` : ''}</Typography>
                     </Box>
                     <Box>
-                        <Button component={Link} to="/create-poll" variant="contained" className="bg-two"><AddIcon className="mr-1" />Create Poll</Button>
+                        <Button
+                            component={Link}
+                            to="/create-poll"
+                            variant="contained"
+                            className="bg-two"
+                            sx={{ marginBottom: { xs: '0.5rem', sm: '0.5rem', md: '0', lg: '0' } }}
+                        ><AddIcon className="mr-1" />Create Poll</Button>
                     </Box>
                 </Stack>
             </Grid>

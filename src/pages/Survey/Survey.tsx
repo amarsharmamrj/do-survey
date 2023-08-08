@@ -21,16 +21,16 @@ const Survey = () => {
 
     useEffect(() => {
         if (checkLogin()) {
-        axios.get(`${process.env.REACT_APP_API_URL}/survey/data/${loginUser.user.userId}`)
-            .then((res) => {
-                console.log("create get surveys:", res.data)
-                setSurveys(res.data)
-                setLoading(false)
-            })
-            .catch((err) => {
-                console.log("get surveys error:", err)
-                setLoading(false)
-            })
+            axios.get(`${process.env.REACT_APP_API_URL}/survey/data/${loginUser.user.userId}`)
+                .then((res) => {
+                    console.log("create get surveys:", res.data)
+                    setSurveys(res.data)
+                    setLoading(false)
+                })
+                .catch((err) => {
+                    console.log("get surveys error:", err)
+                    setLoading(false)
+                })
         }
     }, [loginUser])
 
@@ -49,7 +49,9 @@ const Survey = () => {
                         <Typography variant="h5" component="h6">All Surveys {surveys.length >= 0 ? `(${surveys.length})` : ''}</Typography>
                     </Box>
                     <Box>
-                        <Button component={Link} to="/create-survey" variant="contained" className="bg-two"><AddIcon className="mr-1" />Create Survey</Button>
+                        <Button component={Link} to="/create-survey" variant="contained" className="bg-two"
+                            sx={{ marginBottom: { xs: '0.5rem', sm: '0.5rem', md: '0', lg: '0' } }}
+                        ><AddIcon className="mr-1" />Create Survey</Button>
                     </Box>
                 </Stack>
             </Grid>
