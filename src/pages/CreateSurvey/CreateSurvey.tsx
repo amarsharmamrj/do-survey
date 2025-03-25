@@ -4,7 +4,7 @@ import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import Question from "../../components/CreateSurvey/Question"
 import "./CreateSurvey.css"
 import FormatToolsName from "../../components/CreateSurvey/FormatToolsName";
-import FormatToolsDesc from "../../components/CreateSurvey/FormatToolsDesc";
+import FormatToolsDesc from "../../components/CreateSurvey/FormatToolsDesc"; 
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { enqueueSnackbar } from 'notistack'
