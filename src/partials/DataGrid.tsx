@@ -9,7 +9,7 @@ export default function NewDataGrid(props: any) {
         <DataGrid
           autoHeight
           getRowId={(row: any) => row._id} 
-          rows={props.rows}
+          rows={props.rows} 
           columns={props.columns}
           components={{ Toolbar: GridToolbar }}
         />
