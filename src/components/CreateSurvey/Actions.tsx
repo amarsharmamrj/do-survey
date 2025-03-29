@@ -10,7 +10,7 @@ const Actions = (props:any) => {
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <span>Required</span>
                         <Tooltip title='Make this field required'>
-                            <Switch onChange={handleRequired} checked={question.required} />
+                            <Switch onChange={handleRequired} checked={question.required} /> 
                         </Tooltip>
                     </Box>
                     <Divider orientation="vertical" flexItem sx={{ marginRight: '1rem' }} />
