@@ -2,7 +2,7 @@ import { Collapse, Box, TextField, FormControl, Select, MenuItem, Radio, IconBut
 import AddIcon from '@mui/icons-material/Add'; 
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'; 
 import QuestionType from "./QuestionType";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"; 
 
 const Checkboxes = (props: any) => {
     const { id: surveyId } = useParams();
