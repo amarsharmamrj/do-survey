@@ -11,7 +11,7 @@ const Checkboxes = (props: any) => {
 
     const handleQuestionLabel = (e: any) => {
         console.log("handleQuestionLabel")
-        const questionData = questions.map((item: any) => {
+        const questionData = questions.map((item: any) => { 
             if (item.id === question.id) {
                 item.label = e.target.value
             }
