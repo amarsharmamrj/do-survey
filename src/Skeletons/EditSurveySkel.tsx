@@ -7,7 +7,7 @@ const EditSurveySkel = (props: any) => {
             <Box className="question-box"> 
  
                 <Skeleton variant="rounded" sx={{ width: '100%', height: '3.2rem', margin: '1rem 0' }} /> 
-                <Skeleton variant="rounded" sx={{ width: '100%', height: '3.2rem', margin: '1rem 0' }} />
+                <Skeleton variant="rounded" sx={{ width: '100%', height: '3.2rem', margin: '1rem 0' }} /> 
 
             </Box>
         </Grid>
