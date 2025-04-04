@@ -13,5 +13,5 @@ const EditSurveySkel = (props: any) => {
         </Grid>
     )
 }
-
+ 
 export default EditSurveySkel
