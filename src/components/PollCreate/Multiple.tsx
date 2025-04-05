@@ -8,7 +8,7 @@ const Multiple = (props: any) => {
     const { autoFocus } = props
     const { checked, question, pollName, setPollName, handleQuestionType, handleOptionChange, handleDeleteOption, handleAddOption, questions, setQuestions } = props
 
-    const handleQuestionLabel = (e: any) => {
+    const handleQuestionLabel = (e: any) => { 
         console.log("handleQuestionLabel")
         setPollName(e.target.value)
         const questionData = questions.map((item: any) => {
