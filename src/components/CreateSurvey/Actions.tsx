@@ -9,7 +9,7 @@ const Actions = (props:any) => {
         <Box className="question-actions"> 
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <span>Required</span>
-                        <Tooltip title='Make this field required'> 
+                        <Tooltip title='Make this field required'>  
                             <Switch onChange={handleRequired} checked={question.required} /> 
                         </Tooltip>
                     </Box>
