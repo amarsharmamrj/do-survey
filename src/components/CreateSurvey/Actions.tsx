@@ -6,7 +6,7 @@ const Actions = (props:any) => {
     const {question, handleRequired, handleDeleteQuestion, handleAddQuestion } = props  
 
     return (
-        <Box className="question-actions">
+        <Box className="question-actions"> 
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <span>Required</span>
                         <Tooltip title='Make this field required'> 
