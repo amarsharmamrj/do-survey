@@ -11,7 +11,7 @@ import ChecklistIcon from '@mui/icons-material/Checklist';
 import SegmentIcon from '@mui/icons-material/Segment';
 
 const SurveyCard = (props: any) => { 
-    const { survey } = props
+    const { survey } = props 
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
     const handleMenuOpen = (e: any) => {
