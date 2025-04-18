@@ -8,7 +8,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import ShareIcon from '@mui/icons-material/Share';
 import ChecklistIcon from '@mui/icons-material/Checklist';
-import SegmentIcon from '@mui/icons-material/Segment';
+import SegmentIcon from '@mui/icons-material/Segment'; 
 
 const SurveyCard = (props: any) => { 
     const { survey } = props 
