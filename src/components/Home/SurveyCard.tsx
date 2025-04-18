@@ -13,7 +13,7 @@ import SegmentIcon from '@mui/icons-material/Segment';
 const SurveyCard = (props: any) => {    
     const { survey } = props 
     const [anchorEl, setAnchorEl] = useState(null)
-    const open = Boolean(anchorEl)
+    const open = Boolean(anchorEl) 
     const handleMenuOpen = (e: any) => {
         setAnchorEl(e.currentTarget)
     }
