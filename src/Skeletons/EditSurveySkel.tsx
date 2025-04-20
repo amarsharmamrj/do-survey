@@ -2,7 +2,7 @@ import { Box, Grid, Skeleton } from "@mui/material"
   
 const EditSurveySkel = (props: any) => {  
  
-    return (
+    return ( 
         <Grid item xs={12} sm={12} md={10}>     
             <Box className="question-box">  
  
